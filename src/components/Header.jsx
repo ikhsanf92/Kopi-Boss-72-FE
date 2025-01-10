@@ -12,9 +12,9 @@ import {
 } from "react-router-dom";
 
 import burgerIcon from "../assets/icons/burger-menu-left.svg";
-import chatIcon from "../assets/icons/chat.svg";
+// import chatIcon from "../assets/icons/chat.svg";
 import placeholderProfile from "../assets/images/placeholder-profile.jpg";
-import logo from "../assets/jokopi.svg";
+import logo from "../assets/kopiboss72.png";
 import { contextAct } from "../redux/slices/context.slice";
 import { profileAction } from "../redux/slices/profile.slice";
 import { uinfoAct } from "../redux/slices/userInfo.slice";
@@ -131,12 +131,10 @@ class Header extends Component {
 
   handleClickOutside(event) {
     if (
-      this.dropdownRef.current &&
-      !this.dropdownRef.current.contains(event.target)
+      this.searchRef.current &&
+      !this.searchRef.current.contains(event.target)
     ) {
-      this.setState({
-        isDropdownOpen: false,
-      });
+      this.setState({ isSearchOpen: false });
     }
   }
 
@@ -170,22 +168,29 @@ class Header extends Component {
         </div>
         <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b-2 border-gray-100">
           <div className=" flex global-px justify-between items-center">
-            <div className="py-5 md:py-8 font-extrabold">
+            <div className="py-0 font-bold">
               <Link to="/" className=" flex flex-row justify-center gap-4">
-                <img src={logo} alt="logo" width="30px" />
-                <h1 className="text-xl">jokopi.</h1>
+                <img src={logo} alt="logo" width="100px" />
+                <h1 className="text-xl py-9">Kopi Boss 72</h1>
               </Link>
             </div>
             <div className="navbar-burger select-none cursor-pointer lg:hidden py-4 flex gap-7 flex-row items-center">
               <div
                 ref={this.searchRef}
                 className="search-section cursor-pointer relative"
-                onClick={() =>
-                  this.setState((prevState) => ({
-                    ...prevState,
-                    isSearchOpen: !prevState.isSearchOpen,
-                  }))
-                }
+                onClick={() => {
+                  this.setState(
+                    (prevState) => ({
+                      ...prevState,
+                      isSearchOpen: !prevState.isSearchOpen,
+                    }),
+                    () =>
+                      console.log(
+                        "isSearchOpen state:",
+                        this.state.isSearchOpen
+                      )
+                  );
+                }}
               >
                 <svg
                   width="22"
@@ -205,10 +210,10 @@ class Header extends Component {
               </div>
               {!_.isEmpty(this.props.userInfo.token) && (
                 <a href="" className="relative">
-                  <div className="absolute -left-2 -top-2 h-4 w-4 bg-tertiary rounded-full text-white flex text-[0.70rem] items-center justify-center font-extrabold">
+                  {/* <div className="absolute -left-2 -top-2 h-4 w-4 bg-tertiary rounded-full text-white flex text-[0.70rem] items-center justify-center font-extrabold">
                     9+
                   </div>
-                  <img src={chatIcon} alt="" width="24px" />
+                  <img src={chatIcon} alt="" width="24px" /> */}
                 </a>
               )}
               <button onClick={this.toggleNavbar}>
@@ -228,7 +233,7 @@ class Header extends Component {
                     isActive ? "font-bold text-[#6A4029]" : ""
                   }
                 >
-                  Home
+                  Beranda
                 </NavLink>
               </li>
               <li className="list-none" key="Product">
@@ -238,7 +243,7 @@ class Header extends Component {
                     isActive ? "font-bold text-[#6A4029]" : ""
                   }
                 >
-                  Products
+                  Menu
                 </NavLink>
               </li>
               <li className="list-none" key="Cart">
@@ -248,7 +253,7 @@ class Header extends Component {
                     isActive ? "font-bold text-[#6A4029]" : ""
                   }
                 >
-                  Your Cart
+                  Keranjang
                 </NavLink>
               </li>
               <li className="list-none" key="History">
@@ -258,7 +263,7 @@ class Header extends Component {
                     isActive ? "font-bold text-[#6A4029]" : ""
                   }
                 >
-                  History
+                  Riwayat
                 </NavLink>
               </li>
             </nav>
@@ -318,7 +323,7 @@ class Header extends Component {
                               inputSearch: e.target.value,
                             }))
                           }
-                          placeholder="Search product here..."
+                          placeholder="Cari menu disini..."
                           className="border outline-none focus:border-tertiary px-2 py-2 mx-2 rounded-lg text-sm"
                           required
                         />
@@ -343,12 +348,12 @@ class Header extends Component {
                     </nav>
                   )}
                 </div>
-                <a href="" className="relative">
+                {/* <a href="" className="relative">
                   <div className="absolute -left-2 -top-2 h-4 w-4 bg-tertiary rounded-full text-white flex text-[0.70rem] items-center justify-center font-extrabold">
                     9+
                   </div>
                   <img src={chatIcon} alt="" width="30px" />
-                </a>
+                </a> */}
                 <div
                   className="relative flex items-center my-auto"
                   ref={this.dropdownRef}
@@ -402,7 +407,7 @@ class Header extends Component {
                     {this.state.isDropdownOpen && (
                       <nav className="absolute list-none bg-white rounded-lg shadow-md border-1 border-gray-200 flex flex-col right-0 top-10 py-2 divide-y-1 transition-all duration-200 transform origin-top-right min-w-[14rem]">
                         <div className="px-4 py-1">
-                          <p>Signed in as</p>
+                          <p>Masuk sebagai</p>
                           <p className="font-medium">
                             {this.limitCharacters(getUserData().email)}
                           </p>
@@ -412,7 +417,7 @@ class Header extends Component {
                             className="block px-4 py-2 hover:bg-gray-100  duration-200"
                             to="/profile/"
                           >
-                            Profile
+                            Profil
                           </NavLink>
                           {/* <a
                           className="block px-4 py-2 hover:bg-gray-100 duration-200"
@@ -433,19 +438,19 @@ class Header extends Component {
                               className="block px-4 py-2 hover:bg-gray-100  duration-200"
                               to="/manage-order"
                             >
-                              Manage Order
+                              Kelola Pesanan
                             </NavLink>
                             <NavLink
                               className="block px-4 py-2 hover:bg-gray-100  duration-200"
                               to="/products/new"
                             >
-                              Add Product
+                              Tambah Menu
                             </NavLink>
                             <NavLink
                               className="block px-4 py-2 hover:bg-gray-100  duration-200"
                               to="/promo/new"
                             >
-                              Add Promo
+                              Buat Promo
                             </NavLink>
                           </div>
                         )}
@@ -454,7 +459,7 @@ class Header extends Component {
                             className="block px-4 py-2 hover:bg-gray-100 duration-200 cursor-pointer"
                             onClick={this.logoutHandler}
                           >
-                            Sign out
+                            Keluar
                           </a>
                         </div>
                       </nav>
@@ -465,11 +470,11 @@ class Header extends Component {
             ) : (
               <div className="hidden lg:flex flex-row gap-3 items-center select-none py-6">
                 <Link to="/auth/login" className="mr-9 font-semibold">
-                  Login
+                  Masuk
                 </Link>
                 <Link to="/auth/register">
                   <button className="rounded-[25px] bg-secondary px-10 text-tertiary font-semibold py-2 hover:bg-secondary-200 duration-300">
-                    Sign Up
+                    Daftar
                   </button>
                 </Link>
               </div>

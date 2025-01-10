@@ -14,10 +14,12 @@ export const CheckAuth = ({ children }) => {
     userInfo: state.userInfo,
   }));
 
-  if (userInfo.token === "" && userInfo.token?.length < 1) {
-    toast.error("You must login first");
+  if (userInfo.token === "" || userInfo.token?.length < 1) {
+    toast.dismiss(); // Hapus semua notifikasi sebelumnya
+    toast.error("Eits, kamu belum login");
     return <Navigate to="/auth/login" replace={true} />;
   }
+
   return <Outlet />;
 };
 

@@ -1,51 +1,48 @@
-import React, {
-  Component,
-  Fragment,
-} from 'react';
+import React, { Component, Fragment } from "react";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 // assets icons
-import checkCircle from '../assets/icons/check-circle.svg';
-import checkIcon from '../assets/icons/check.svg';
-import loveIcon from '../assets/icons/love.svg';
-import placeIcon from '../assets/icons/place.svg';
-import starIcon from '../assets/icons/star.svg';
-import staffIcon from '../assets/icons/user.svg';
-import mapImage from '../assets/images/global.svg';
-import amazonLogo from '../assets/images/partners/amazon.svg';
-import discordLogo from '../assets/images/partners/discord.svg';
-import netflixLogo from '../assets/images/partners/netflix.svg';
-import redditLogo from '../assets/images/partners/reddit.svg';
-import spotifyLogo from '../assets/images/partners/spotify.svg';
-import phProfile from '../assets/images/placeholder-profile.jpg';
-import productImage1 from '../assets/images/product-1.webp';
+import checkCircle from "../assets/icons/check-circle.svg";
+import checkIcon from "../assets/icons/check.svg";
+import loveIcon from "../assets/icons/love.svg";
+import placeIcon from "../assets/icons/place.svg";
+import starIcon from "../assets/icons/star.svg";
+import staffIcon from "../assets/icons/user.svg";
+import mapImage from "../assets/images/global.svg";
+import amazonLogo from "../assets/images/partners/amazon.svg";
+import discordLogo from "../assets/images/partners/discord.svg";
+import netflixLogo from "../assets/images/partners/netflix.svg";
+import redditLogo from "../assets/images/partners/reddit.svg";
+import spotifyLogo from "../assets/images/partners/spotify.svg";
+import phProfile from "../assets/images/placeholder-profile.jpg";
+import productImage1 from "../assets/images/product-1.webp";
 // assets images
-import provideImage from '../assets/images/team-work.webp';
+import provideImage from "../assets/images/kopi3.png";
 // components
-import Footer from '../components/Footer';
-import Header from '../components/Header';
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 class Mainpage extends Component {
   state = {
     provide: [
-      "High quality beans",
-      "Healthy meals, you can request the ingredients",
-      "Chat with our staff to get better experience for ordering",
-      "Free member card with a minimum purchase of IDR 200.000.",
+      "Biji kopi premium, rasa tak tertandingi",
+      "Makanan sehat dan kekinian yang enak dinikmati kapan saja ",
+      "Tempat cozy dengan segala yang kamu butuhin buat ngopi santai",
+      "Pelayanan ramah dan cepat, bikin kamu betah berlama-lama",
     ],
     reviews: [
       {
-        name: "Foo Barr",
-        text: "Wow... I am very happy to spend my whole day here. the Wi-fi is good, and the coffee and meals tho. I like it here!! Very recommended!",
+        name: "Christiano Ronaldo",
+        text: "Gokil sih, betah banget seharian di sini. Wi-fi ngebut, kopi sama makanannya juara banget",
       },
       {
-        name: "Yessica Christy",
-        text: "I like it because I like to travel far and still can make my day better just by drinking their Hazelnut Latte",
+        name: "Billie Eilish",
+        text: "Gue suka banget tempat ini, hari gue langsung auto mendingan cuma gara-gara Hazelnut Latte-nya mereka. Mantap!",
       },
       {
-        name: "Kim Young Jou",
-        text: "This is very unusual for my taste, I haven’t liked coffee before but their coffee is the best! and yup, you have to order the chicken wings, the best in town",
+        name: "Raditya Dika",
+        text: "Beda banget sih sama selera gue biasanya. Gue tuh nggak pernah suka kopi, tapi kopi mereka juara banget!",
       },
     ],
   };
@@ -58,19 +55,21 @@ class Mainpage extends Component {
             <div className="global-px">
               <div className="flex flex-col gap-6 w-[75%] lg:w-[50%] text-sm">
                 <h2 className="text-4xl font-bold">
-                  Start Your Day with Coofee and Good Meals
+                  Seduhan Kopi Boss <br />
+                  untuk Anda
                 </h2>
                 <p>
-                  We provide high quality beans, good taste, and healthy meals
-                  made by love just for you. Start your day with us for a bigger
-                  smile!
+                  Rasakan sensasi ngopi yang berbeda di Kopi Boss 72. <br />
+                  Kopi pilihan kami diproses dengan teknik terbaik <br />
+                  untuk memberikan cita rasa yang kuat dan berkualitas. <br />
+                  Ngopi like a boss!
                 </p>
                 <div className="mt-5">
                   <Link
                     className="bg-secondary px-6 py-4 text-[#6A4029] rounded-xl"
                     to={"/products/"}
                   >
-                    Get Started
+                    Pesan Sekarang
                   </Link>
                 </div>
               </div>
@@ -82,8 +81,8 @@ class Mainpage extends Component {
                     </div>
                   </div>
                   <div>
-                    <p className="text-md lg:text-xl">90+</p>
-                    <p className="font-normal text-primary">Staff</p>
+                    <p className="text-md lg:text-xl">10+</p>
+                    <p className="font-normal text-primary">Coffee</p>
                   </div>
                 </aside>
                 <aside className="flex-1 border-r-2 py-2 md:py-6 flex flex-col md:flex-row justify-center gap-3 md:gap-8 items-center">
@@ -91,8 +90,8 @@ class Mainpage extends Component {
                     <img src={loveIcon} alt="" />
                   </div>
                   <div>
-                    <p className="text-md lg:text-xl">800+</p>
-                    <p className="font-normal text-primary">Customers</p>
+                    <p className="text-md lg:text-xl">15+</p>
+                    <p className="font-normal text-primary">Non-Coffee</p>
                   </div>
                 </aside>
                 <aside className="flex-1 py-2 md:py-6 flex flex-col md:flex-row justify-center gap-3 md:gap-8 items-center">
@@ -100,8 +99,8 @@ class Mainpage extends Component {
                     <img src={placeIcon} alt="" />
                   </div>
                   <div>
-                    <p className="text-md lg:text-xl">30+</p>
-                    <p className="font-normal text-primary">Stores</p>
+                    <p className="text-md lg:text-xl">15+</p>
+                    <p className="font-normal text-primary">Food & Snacks</p>
                   </div>
                 </aside>
               </section>
@@ -113,12 +112,12 @@ class Mainpage extends Component {
               <img src={provideImage} alt="" width="100%" />
             </div>
             <div className="flex-1 flex flex-col justify-center gap-5">
-              <h2 className="text-quartenary font-semibold text-[35px]">
-                We Provide Good Coffee and Healthy Meals
+              <h2 className="text-quartenary font-semibold text-[26px]">
+                Kami Menyajikan Kopi Berkualitas dan Makanan Kekinian
               </h2>
               <p className="text-[#4F5665]">
-                You can explore the menu that we provide with fun and have their
-                own taste and make your day better.
+                Nikmati beragam menu otentik yang siap bikin harimu makin asik
+                dengan cita rasa khas!
               </p>
               <ul className="flex flex-col max-w-md space-y-1 text-[#4F5665] list-inside gap-4">
                 {this.state.provide.map((text, idx) => (
@@ -132,11 +131,10 @@ class Mainpage extends Component {
           <section className="global-px py-8 md:py-20">
             <div className="flex flex-col items-center">
               <h2 className="text-4xl text-quartenary font-semibold mb-5 text-center">
-                Here is People’s Favorite
+                Wajib Coba, Auto Jadi Favorit!
               </h2>
               <p className="text-base text-gray-700 text-center">
-                Let’s choose and have a bit taste of poeple’s favorite. It might
-                be yours too!
+                Yuk pilih dan cobain deh, siapa tau ini jadi favoritmu juga! 
               </p>
             </div>
             <div className="flex flex-row flex-wrap justify-center gap-12 mt-20">
@@ -177,67 +175,32 @@ class Mainpage extends Component {
           <section className="global-px py-8 md:py-20">
             <div className="flex flex-col items-center mb-8 md:mb-20">
               <h2 className="text-4xl text-quartenary font-semibold mb-5 text-center">
-                Visit Our Store in
-                <br />
-                the Spot on the Map Below
+                Penasaran dengan Kopi Boss 72?
               </h2>
               <p className="text-base text-gray-700 text-center">
-                See our store in every city on the spot and spen your good day
-                there. See you soon!
+                Yuk kunjungi toko kami di lokasi di bawah ini
               </p>
             </div>
             <div className="mt-10">
-              <img src={mapImage} alt="global map" />
-            </div>
-          </section>
-          <section className="global-px py-8 md:py-20">
-            <div className="flex flex-col items-center mb-8 md:mb-20">
-              <h2 className="text-4xl text-quartenary font-semibold mb-5 text-center">
-                Our Partner
-              </h2>
-            </div>
-            <div className="flex flex-row flex-wrap justify-center items-center gap-4 md:gap-12 ">
-              <img
-                src={netflixLogo}
-                alt=""
-                width="100px"
-                className="lg:w-[15%] aspect-[3/2] object-contain grayscale opacity-20 duration-300 hover:filter-none hover:opacity-100"
-              />
-              <img
-                src={redditLogo}
-                alt=""
-                width="100px"
-                className="lg:w-[15%] aspect-[3/2] object-contain grayscale opacity-20 duration-300 hover:filter-none hover:opacity-100"
-              />
-              <img
-                src={amazonLogo}
-                alt=""
-                width="100px"
-                className="lg:w-[15%] aspect-[3/2] object-contain grayscale opacity-20 duration-300 hover:filter-none hover:opacity-100"
-              />
-              <img
-                src={discordLogo}
-                alt=""
-                width="100px"
-                className="lg:w-[15%] aspect-[3/2] object-contain grayscale opacity-20 duration-300 hover:filter-none hover:opacity-100"
-              />
-              <img
-                src={spotifyLogo}
-                alt=""
-                width="100px"
-                className="lg:w-[15%] aspect-[3/2] object-contain grayscale opacity-20 duration-300 hover:filter-none hover:opacity-100"
-              />
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.5708804917085!2d106.96938647398964!3d-6.18813439379942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698ba450558ca3%3A0x8d2f59648dcae6f6!2sKopi%20Boss%2072!5e0!3m2!1sid!2sid!4v1732688369059!5m2!1sid!2sid"
+                width="100%"
+                height="450"
+                allowFullScreen=""
+                loading="lazy"
+                className="border-0"
+                style={{ borderRadius: "8px", maxWidth: "100vw" }}
+              ></iframe>
             </div>
           </section>
           <section className="global-px py-8 md:py-20">
             <div className="flex flex-col items-center mb-8 md:mb-20 text-center">
               <h2 className="text-3xl md:text-[35px] text-quartenary font-semibold mb-5">
-                Loved by Customer of
-                <br /> Happy Customer
+                Cerita Tentang Kita
               </h2>
               <p className="text-[1rem] text-center max-w-[555px] text-primary">
-                These are the stories of our customers who have visited us with
-                great pleasure.
+                Inilah cerita seru dari pelanggan kami yang puas dan senang
+                berkunjung ke sini.
               </p>
             </div>
             <div className="overflow-auto flex flex-row gap-5 flex-wrap lg:flex-nowrap ">
@@ -257,7 +220,6 @@ class Mainpage extends Component {
                         <p className="font-semibold text-quartenary text-lg">
                           {review.name}
                         </p>
-                        <p className="text-primary text-sm">Warsaw, Poland</p>
                       </div>
                       <div className="flex flex-row items-center gap-2">
                         4.5 <img src={starIcon} alt="" />
@@ -272,16 +234,21 @@ class Mainpage extends Component {
           <section className="global-px z-10 relative w-full mb-6 md:mb-[-6rem]">
             <div className="shadow-primary rounded-xl flex flex-col md:flex-row py-10 md:py-14 px-8 md:px-16 bg-white text-center md:text-left">
               <aside className="flex-1 space-y-4 mb-5 md:mb-0">
-                <p className="text-3xl font-semibold">Check our promo today!</p>
+                <p className="text-2xl font-bold">
+                  Yuk cek promo menarik kita sekarang!
+                </p>
                 <p className="text-primary">
-                  Let&apos;s see the deals and pick yours
+                  Nikmati berbagai promo untuk produk produk pilihan kami
                 </p>
               </aside>
               <aside className="hidden lg:block lg:flex-1"></aside>
               <aside className="flex-1 flex flex-col justify-center">
-                <button className="ml-auto w-[100%] md:w-[75%]  bg-secondary rounded-xl py-4 text-tertiary font-bold">
-                  See promo
-                </button>
+                <Link
+                  to="/products"
+                  className="ml-auto w-[100%] md:w-[75%] bg-secondary rounded-xl py-4 text-tertiary font-bold text-center"
+                >
+                  Cek Promo
+                </Link>
               </aside>
             </div>
           </section>

@@ -11,13 +11,17 @@ export function login(email, password, rememberMe, controller) {
   });
 }
 
-export function register(email, password, phone_number, controller) {
+export async function register(email, password, phone_number, controller) {
   const body = { email, password, phone_number };
   const url = `${host}/apiv1/auth/register`;
 
-  return axios.post(url, body, {
-    signal: controller.signal,
-  });
+  console.log(body, url, controller.signal);
+
+  const rest = axios.post(url, body);
+
+  console.log(rest, "ini restpong");
+
+  return rest;
 }
 
 export function forgotPass(email, controller) {

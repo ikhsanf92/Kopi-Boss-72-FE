@@ -1,30 +1,31 @@
 import api from "./base";
 
-export const createPromoEntry = (
-  {
-    image = "",
-    name = "",
-    product_id = "",
-    desc = "",
-    discount = "",
-    coupon_code = "",
-    start_date = "",
-    end_date = "",
-  },
-  token,
-  controller
-) => {
-  const bodyForm = new FormData();
-  bodyForm.append("image", image);
-  bodyForm.append("name", name);
-  bodyForm.append("desc", desc);
-  bodyForm.append("discount", discount);
-  bodyForm.append("product_id", product_id);
-  bodyForm.append("coupon_code", coupon_code);
-  bodyForm.append("start_date", JSON.stringify(start_date));
-  bodyForm.append("end_date", JSON.stringify(end_date));
+export const createPromoEntry = (data, token, controller) => {
+  const defaultPromoData = {
+    image: "",
+    name: "",
+    product_id: "",
+    desc: "",
+    discount: "",
+    coupon_code: "",
+    start_date: "",
+    end_date: "",
+  };
 
-  form.coupon_code = form.coupon_code.toUpperCase();
+  const form = new FormData();
+  const promoData = { ...defaultPromoData, ...data };
+
+  Object.keys(promoData).forEach((key) => {
+    let value = promoData[key];
+    if (key === "start_date" || key === "end_date") {
+      value = new Date(value).toISOString();
+    }
+    if (key === "coupon_code") {
+      value = value.toUpperCase();
+    }
+    form.append(key, value);
+  });
+
   return api.post("/apiv1/promo", form, {
     signal: controller.signal,
     headers: { Authorization: `Bearer ${token}` },
@@ -41,6 +42,7 @@ export const getPromos = (
     available,
     searchByName,
   };
+  console.log("Sending request with params:", params);
   return api.get("/apiv1/promo", {
     params,
     signal: controller.signal,

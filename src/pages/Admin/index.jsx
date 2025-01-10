@@ -1,26 +1,20 @@
-import 'react-loading-skeleton/dist/skeleton.css';
+import "react-loading-skeleton/dist/skeleton.css";
 
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import axios from 'axios';
-import Skeleton from 'react-loading-skeleton';
-import { connect } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import axios from "axios";
+import Skeleton from "react-loading-skeleton";
+import { connect } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
-import { getSellingReport } from '../../utils/dataProvider/admin';
-import useDocumentTitle from '../../utils/documentTitle';
-import {
-  n_f,
-  short_n_f,
-} from '../../utils/helpers';
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
+import { getSellingReport } from "../../utils/dataProvider/admin";
+import useDocumentTitle from "../../utils/documentTitle";
+import { n_f, short_n_f } from "../../utils/helpers";
 
 const AdminDashboard = (props) => {
-  useDocumentTitle("Admin Dashboard");
+  // useDocumentTitle("Admin Dashboard");
   const [data, setData] = useState([]);
 
   // const data = [
@@ -64,17 +58,17 @@ const AdminDashboard = (props) => {
   let subtitle = "";
   switch (view) {
     case "daily":
-      title = "Daily Report";
-      subtitle = "Last 7 days include today";
+      title = "Laporan Harian";
+      subtitle = "7 hari terakhir termasuk hari ini";
       break;
     case "weekly":
-      title = "Weekly Report";
-      subtitle = "Last 7 week include current week";
+      title = "Laporan Mingguan";
+      subtitle = "7 minggu terakhir termasuk minggu ini";
       break;
 
     default:
-      title = "Monthly Report";
-      subtitle = "Last 6 months";
+      title = "Laporan Bulanan";
+      subtitle = "6 minggu terakhir";
       break;
   }
 
@@ -86,7 +80,7 @@ const AdminDashboard = (props) => {
       <main className="bg-[#F0F0F0]">
         <section className="flex flex-col global-px py-4 md:py-8">
           <p className="text-center text-tertiary font-bold text-2xl">
-            See how your store progress so far
+            Lihat Statistik Toko Selama Ini
           </p>
           <div className="flex gap-12 justify-center pt-5">
             <div
@@ -100,7 +94,7 @@ const AdminDashboard = (props) => {
                     : "bg-white border-gray-400"
                 }`}
               ></div>
-              <p className={`${view === "daily" && "font-bold"} `}>Daily</p>
+              <p className={`${view === "daily" && "font-bold"} `}>Harian</p>
             </div>
             <div
               className="flex flex-col items-center gap-2 cursor-pointer w-12"
@@ -113,7 +107,7 @@ const AdminDashboard = (props) => {
                     : "bg-white border-gray-400"
                 }`}
               ></div>
-              <p className={`${view === "weekly" && "font-bold"}`}>Weekly</p>
+              <p className={`${view === "weekly" && "font-bold"}`}>Mingguan</p>
             </div>
             <div
               onClick={() => setSearchParams({ view: "monthly" })}
@@ -131,7 +125,7 @@ const AdminDashboard = (props) => {
                   view !== "weekly" && view !== "daily" && "font-bold"
                 }`}
               >
-                Monthly
+                Bulanan
               </p>
             </div>
           </div>
@@ -198,7 +192,7 @@ const AdminDashboard = (props) => {
               <hr />
               <div className="mt-5 flex flex-row justify-center items-center gap-2">
                 <div className="w-4 h-4 rounded-full bg-secondary"></div>{" "}
-                <p className="text-sm text-primary-context">Income</p>
+                <p className="text-sm text-primary-context">Pemasukan</p>
               </div>
             </section>
           )}

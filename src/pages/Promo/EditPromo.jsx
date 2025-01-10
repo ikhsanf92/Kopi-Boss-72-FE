@@ -233,7 +233,7 @@ const EditPromo = (props) => {
         <main className="global-px py-6">
           <nav className="flex flex-row list-none gap-1">
             <li className="after:content-['>'] after:font-semibold text-primary">
-              <NavLink to="/products">Favorite & Promo </NavLink>
+              <NavLink to="/products">Terbaru</NavLink>
             </li>
             <li className="text-tertiary font-semibold">Edit promo</li>
           </nav>

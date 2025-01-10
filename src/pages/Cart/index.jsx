@@ -1,28 +1,26 @@
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 
-import { isEmpty } from 'lodash';
-import { toast } from 'react-hot-toast';
+import axios from "axios";
+
+import { isEmpty } from "lodash";
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import loadingImage from "../../assets/images/loading.svg";
+import productPlaceholder from "../../assets/images/placeholder-image.webp";
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
+import Modal from "../../components/Modal";
+import { cartActions } from "../../redux/slices/cart.slice";
 import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+  checkCode,
+  createTransaction,
+} from "../../utils/dataProvider/transaction";
+import useDocumentTitle from "../../utils/documentTitle";
+import { n_f } from "../../utils/helpers";
 
-import loadingImage from '../../assets/images/loading.svg';
-import productPlaceholder from '../../assets/images/placeholder-image.webp';
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
-import Modal from '../../components/Modal';
-import { cartActions } from '../../redux/slices/cart.slice';
-import { createTransaction } from '../../utils/dataProvider/transaction';
-import useDocumentTitle from '../../utils/documentTitle';
-import { n_f } from '../../utils/helpers';
-
-function Cart() {
+function Cart({ cartItems }) {
   const userInfo = useSelector((state) => state.userInfo);
   const [isLoading, setIsLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -44,7 +42,45 @@ function Cart() {
     notes: "",
     phone_number: "",
   });
-  useDocumentTitle("My Cart");
+  const [promoCode, setPromoCode] = useState("");
+  const [message, setMessage] = useState("");
+  const [discount, setDiscount] = useState(0);
+  // useDocumentTitle("My Cart");
+
+  const applyPromo = async () => {
+    try {
+      if (!cart.length) {
+        setMessage("Keranjang kosong, tambahkan produk terlebih dahulu.");
+        return;
+      }
+
+      const productId = cart[0].product_id;
+
+      console.log("Menggunakan promo untuk product_id:", productId);
+
+      const response = await axios.get(
+        `http://localhost:3000/apiv1/promo/check?code=${promoCode}&productId=${productId}`
+      );
+
+      console.log("API Response:", response.data);
+
+      // Validasi berhasil, panggil checkPromo untuk diskon
+      if (response.status === 200) {
+        setDiscount(response.data.data.discount);
+        setForm({
+          ...form,
+          promo_id: response.data.data.id,
+        });
+
+        toast.success("Promo code berhasil digunakan");
+
+        // setMessage("Promo berhasil digunakan!");
+      }
+    } catch (error) {
+      console.log("API Error:", error.response?.data);
+      toast.error(error.response.data.msg);
+    }
+  };
 
   function onChangeForm(e) {
     return setForm((form) => {
@@ -60,7 +96,7 @@ function Cart() {
       setForm({
         ...form,
         phone_number: profile.data?.phone_number,
-        delivery_address: profile.data?.address,
+        delivery_address: profile.data?.display_name,
       });
     }
     // setIsLoading(true);
@@ -90,22 +126,35 @@ function Cart() {
     toggleEdit();
   };
 
-  const disabled = form.payment === "" || form.delivery_address === "";
+  const disabled =
+    form.payment === "" || form.delivery_address === "" || form.notes === "";
   const controller = useMemo(() => new AbortController());
   const payHandler = () => {
     if (disabled) return;
     if (userInfo.token === "") {
-      toast.error("Login to continue transaction");
+      toast.error("Eits, login dulu baru bayar");
       navigate("/auth/login");
       return;
     }
-    if (editMode) return toast.error("You have unsaved changes");
-    if (cart.length < 1)
-      return toast.error("Add at least 1 product to your cart");
+    if (editMode) return toast.error("Ada yang belum disimpen tuh");
+    if (cart.length < 1) return toast.error("Keranjang kamu masih kosong nih");
     setIsLoading(true);
+    console.log({
+      payment_id: form.payment,
+      promo_id: form?.promo_id || 0,
+      delivery_id: 1,
+      address: form.delivery_address,
+      notes: form.notes,
+    });
+
+    console.log(form, "cihuyyyy");
+
+    console.log(cart, "cihuyyyy");
+
     createTransaction(
       {
         payment_id: form.payment,
+        promo_id: form?.promo_id || 0,
         delivery_id: 1,
         address: form.delivery_address,
         notes: form.notes,
@@ -127,6 +176,31 @@ function Cart() {
         setIsLoading(false);
       });
   };
+
+  const checkPromo = () => {
+    setIsLoading(true);
+    checkCode(promoCode, productId, userInfo.token, controller)
+      .then((data) => {
+        console.log(data, "this data");
+        const res = data?.data?.data;
+
+        setDiscount(res.discounted_price);
+        setForm({
+          ...form,
+          promo_id: res.id,
+        });
+
+        toast.success("Promo code berhasil digunakan");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("An error ocurred, please check your internet connection");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   const closeRemoveModal = () => {
     setRemove({ product_id: "", size_id: "" });
   };
@@ -137,7 +211,7 @@ function Cart() {
         onClose={() => setRemove({ product_id: "", size_id: "" })}
         className="flex flex-col gap-y-5"
       >
-        Are you sure to delete this item form your cart?
+        Yakin ingin hapus produk ini dari keranjang?
         <div className="mx-auto space-x-3">
           <button
             onClick={() => {
@@ -151,10 +225,10 @@ function Cart() {
             }}
             className="btn btn-primary text-white"
           >
-            Yes
+            Ya
           </button>
           <div onClick={closeRemoveModal} className="btn btn-error">
-            No
+            Tidak
           </div>
         </div>
       </Modal>
@@ -163,14 +237,14 @@ function Cart() {
       <main className="bg-cart bg-cover bg-center">
         <div className="global-px  space-y-3 py-10">
           <section className="text-white lg:text-3xl text-2xl font-extrabold drop-shadow-lg text-center md:text-left">
-            Checkout your item now!
+            Checkout pesanan kamu!
           </section>
           <section className="flex flex-col md:flex-row lg:gap-16 gap-10">
             <aside className="flex-1 flex">
               <section className="flex bg-white rounded-lg p-5 lg:p-7 flex-col w-full">
                 <div className="w-full my-4 lg:my-6">
                   <p className="text-tertiary font-bold text-xl lg:text-3xl text-center">
-                    Order Summary
+                    Total Pesanan
                   </p>
                 </div>
                 <section className="flex w-full flex-col gap-4 my-4">
@@ -238,7 +312,6 @@ function Cart() {
                               +
                             </button>
                           </div>
-                          <p>{sizeName}</p>
                         </aside>
                         <aside className="flex-1">
                           <p className="text-right">
@@ -272,22 +345,53 @@ function Cart() {
                     </p>
                   </div>
                   <div className="flex flex-row uppercase lg:text-lg">
-                    <p className="flex-[2_2_0%]">Tax & Fees</p>
-                    <p className="flex-1 lg:flex-none text-right">IDR 20.000</p>
+                    {/* <p className="flex-[2_2_0%]">Tax & Fees</p>
+                    <p className="flex-1 lg:flex-none text-right">IDR 20.000</p> */}
                   </div>
                   <div className="flex flex-row uppercase lg:text-lg">
-                    <p className="flex-[2_2_0%]">Shipping</p>
-                    <p className="flex-1 lg:flex-none text-right">IDR 10.000</p>
+                    {/* <p className="flex-[2_2_0%]">Shipping</p>
+                    <p className="flex-1 lg:flex-none text-right">IDR 10.000</p> */}
                   </div>
+                  <div className="flex flex-row items-center uppercase lg:text-lg mb-4 mt-4">
+                    <label htmlFor="promoCode" className="flex-[2_2_0%]">
+                      Promo Code
+                    </label>
+                    <input
+                      type="text"
+                      id="promoCode"
+                      name="promoCode"
+                      value={promoCode}
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      placeholder="Masukkan kode promo"
+                      onChange={(e) =>
+                        setPromoCode(e.target.value.toUpperCase())
+                      }
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full btn-primary text-white py-2 px-4 mt-4 rounded-lg focus:outline-none font-bold"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      applyPromo();
+                    }}
+                  >
+                    Gunakan Kode Promo
+                  </button>
                   <div className="flex flex-row uppercase  lg:text-xl font-bold my-10">
                     <p className="flex-[2_2_0%]">Total</p>
                     <p className="flex-initial lg:flex-none">
                       IDR{" "}
                       {n_f(
-                        cart.reduce(
-                          (acc, cur) => acc + cur.price * cur.qty,
-                          0
-                        ) + 30000
+                        parseInt(
+                          cart.reduce(
+                            (acc, cur) => acc + cur.price * cur.qty,
+                            0
+                          ) *
+                            (1 - discount / 100)
+                        )
                       )}
                     </p>
                   </div>
@@ -296,47 +400,35 @@ function Cart() {
             </aside>
             <aside className="flex-1 flex flex-col gap-5">
               <section className="text-white text-xl lg:text-2xl font-extrabold drop-shadow-lg text-center md:text-left relative items-center">
-                Address details
-                <button
-                  onClick={editMode ? saveEditInfo : toggleEdit}
-                  className="absolute text-lg right-0 bottom-0 top-1 hover:underline"
-                >
-                  {editMode ? "save" : "edit"}
-                </button>
+                Detail Pemesan
               </section>
-              <section className="bg-white rounded-xl  p-5 lg:p-7 space-y-2">
+              <section className="bg-white rounded-xl p-5 lg:p-7 space-y-2">
                 <div className="flex gap-1">
-                  <b>Delivery</b> to
+                  <b>Nama Pemesan : </b>
                   <input
                     value={form.delivery_address}
                     onChange={onChangeForm}
-                    disabled={!editMode}
                     className="outline-none flex-1"
                     name="delivery_address"
-                    placeholder="address..."
+                    placeholder="Isi dengan nama kamu yaa..."
+                    required
                   />
                 </div>
                 <hr />
-                <input
-                  value={form.notes}
-                  onChange={onChangeForm}
-                  disabled={!editMode}
-                  className="outline-none w-full"
-                  name="notes"
-                  placeholder="notes..."
-                />
-                <hr />
-                <input
-                  value={form.phone_number}
-                  onChange={onChangeForm}
-                  disabled
-                  className="outline-none"
-                  name="phone_number"
-                  placeholder="phone number..."
-                />
+                <div className="flex items-center gap-2">
+                  <b>Nomor Meja : </b>
+                  <input
+                    value={form.notes}
+                    onChange={onChangeForm}
+                    className="outline-none flex-1"
+                    name="notes"
+                    placeholder="Harap isi nomor meja kamu..."
+                    required
+                  />
+                </div>
               </section>
               <section className="text-white text-xl lg:text-2xl font-extrabold drop-shadow-lg text-center md:text-left relative">
-                Payment method
+                Metode Pembayaran
               </section>
               <section className="bg-white rounded-xl  p-5 lg:p-7 space-y-3">
                 <div className="flex gap-2 items-center">
@@ -465,7 +557,7 @@ function Cart() {
                   isLoading && "loading"
                 } btn btn-block btn-primary text-white py-4 font-bold rounded-lg disabled:bg-opacity-100`}
               >
-                Confirm and Pay
+                Bayar Sekarang
               </button>
             </aside>
           </section>

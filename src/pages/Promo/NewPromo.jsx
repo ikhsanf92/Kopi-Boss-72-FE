@@ -18,7 +18,7 @@ import useDocumentTitle from "../../utils/documentTitle";
 import { n_f } from "../../utils/helpers";
 
 const NewPromo = (props) => {
-  useDocumentTitle("New Promo");
+  // useDocumentTitle("New Promo");
   const initialState = {
     name: "",
     price: "",
@@ -177,9 +177,9 @@ const NewPromo = (props) => {
       <main className="global-px py-6">
         <nav className="flex flex-row list-none gap-1">
           <li className="after:content-['>'] after:font-semibold text-primary">
-            <NavLink to="/products">Favorite & Promo </NavLink>
+            <NavLink to="/products">Terbaru</NavLink>
           </li>
-          <li className="text-tertiary font-semibold">Add new promo</li>
+          <li className="text-tertiary font-semibold">Buat Promo</li>
         </nav>
         <section className="flex flex-col md:flex-row py-14">
           <section className="flex-1 flex flex-col items-center gap-4">
@@ -190,15 +190,9 @@ const NewPromo = (props) => {
             </div>
             <label
               htmlFor="form_image"
-              className="btn btn-block btn-lg normal-case mt-2 btn-accent text-white"
-            >
-              Take a picture
-            </label>
-            <label
-              htmlFor="form_image"
               className="btn btn-block btn-lg normal-case btn-secondary text-tertiary"
             >
-              Choose from gallery
+              Pilih Gambar
             </label>
           </section>
           <form
@@ -216,7 +210,7 @@ const NewPromo = (props) => {
               className="text-tertiary font-bold text-lg"
               htmlFor="product_name"
             >
-              Product :
+              Pilih Menu :
             </label>
             <div className="relative flex flex-col">
               {form.product_id ? (
@@ -227,7 +221,7 @@ const NewPromo = (props) => {
                 />
               ) : (
                 <input
-                  placeholder="Search product by name"
+                  placeholder="Cari menu berdasarkan nama"
                   name="search_product"
                   id="search_product"
                   value={form.search_product}
@@ -263,8 +257,8 @@ const NewPromo = (props) => {
                     className="cursor-pointer bg-gray-50 hover:bg-gray-300 rounded-md p-1 text-sm font-medium"
                     key={key}
                   >
-                    ID: {item.id} - {item.name} - Price: IDR {n_f(item.price)} -
-                    Category: {item.category_name}
+                    ID: {item.id} - {item.name} - Harga: IDR {n_f(item.price)} -
+                    Kategori: {item.category_name}
                   </li>
                 ))}
               </div>
@@ -273,10 +267,10 @@ const NewPromo = (props) => {
               className="text-tertiary font-bold text-lg"
               htmlFor="product_name"
             >
-              Title :
+              Judul Promo :
             </label>
             <input
-              placeholder="Type promo title max. 50 characters"
+              placeholder="Apa nih judul promonya???"
               name="name"
               id="product_name"
               value={form.name}
@@ -290,7 +284,7 @@ const NewPromo = (props) => {
               className="text-tertiary font-bold text-lg"
               htmlFor="product_price"
             >
-              Discount :
+              Total Diskon :
             </label>
             <div className="flex gap-5 items-center">
               <input
@@ -372,10 +366,10 @@ const NewPromo = (props) => {
               className="text-tertiary font-bold text-lg"
               htmlFor="product_desc"
             >
-              Description :
+              Deskripsi :
             </label>
             <textarea
-              placeholder="Describe your promo min. 10 characters"
+              placeholder="Deskripsikan promonya"
               name="desc"
               id="product_price"
               value={form.desc}
@@ -393,10 +387,10 @@ const NewPromo = (props) => {
               className="text-tertiary font-bold text-lg"
               htmlFor="coupon_code"
             >
-              Coupon Code :
+              Kode Promo :
             </label>
             <input
-              placeholder="Type promo coupon code 6-12 characters"
+              placeholder="Ketikin kode promonya"
               name="coupon_code"
               id="coupon_code"
               value={form.coupon_code.toUpperCase()}
@@ -411,22 +405,22 @@ const NewPromo = (props) => {
               className="text-tertiary font-bold text-lg"
               htmlFor="coupon_code"
             >
-              Promo date (Start - End) :
+              Tanggal Promo (Mulai - Berakhir) :
             </label>
             <Datepicker
               // containerClassName={"bg-white"}
               inputClassName={
                 "bg-white border-b-2 py-2 border-gray-300 focus:border-tertiary outline-none w-full"
               }
-              minDate={new Date()}
+              minDate={new Date(new Date().setHours(0, 0, 0, 0))}
               value={form}
               popoverDirection="up"
-              separator="until"
+              separator="sampai"
               onChange={(e) =>
                 setForm({
                   ...form,
                   startDate: e.startDate,
-                  endDate: e.startDate,
+                  endDate: e.endDate,
                   start_date: e.startDate,
                   end_date: e.endDate,
                 })
@@ -439,7 +433,7 @@ const NewPromo = (props) => {
                 isLoading && "loading"
               } btn btn-block btn-lg normal-case mt-2 btn-primary text-white shadow-lg rounded-2xl`}
             >
-              Save Promo
+              Buat Promo
             </button>
             {/* <button
               type="reset"

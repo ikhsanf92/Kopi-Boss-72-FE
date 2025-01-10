@@ -33,7 +33,7 @@ function ResetPass() {
       })
       .catch((res) => {
         setIsLoading(false);
-        setIsNotFound(true);
+        setIsNotFound(false);
       });
   }, []);
   const Loading = (props) => {
@@ -85,7 +85,7 @@ function ResetPass() {
           return res.data;
         }),
         {
-          loading: "Please wait a moment",
+          loading: "Tunggu Sebentar yaa!!",
           success: "The new password has been set successfully",
           error: (err) => {
             e.target.disabled = false;

@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
-import icon from "../../assets/jokopi.svg";
+import icon from "../../assets/kopiboss72.png";
 import { register } from "../../utils/dataProvider/auth";
 import useDocumentTitle from "../../utils/documentTitle";
 
 const Register = () => {
-  useDocumentTitle("Register");
+  // useDocumentTitle("Register");
 
   const controller = React.useMemo(() => new AbortController(), []);
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Register = () => {
     phoneNumber: "",
   });
 
-  function registerHandler(e) {
+  async function registerHandler(e) {
     e.preventDefault(); // preventing default submit
     toast.dismiss(); // dismiss all toast notification
 
@@ -37,21 +37,22 @@ const Register = () => {
       /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/g;
 
     // email validation
-    if (!form.email) valid.email = "Input your email address";
+    if (!form.email) valid.email = "Emailnya belum dimasukin tuh";
     else if (!form.email.match(emailRegex))
-      valid.email = "Invalid email address";
+      valid.email = "Email kamu salah nih";
 
     // password validation
-    if (!form.password) valid.password = "Input your password";
+    if (!form.password) valid.password = "Passwordnya diketik dulu yah";
     else if (form.password.length < 8)
-      valid.password = "Password length minimum is 8";
+      valid.password = "Password kamu kependekan deh";
     else if (!form.password.match(passRegex))
-      valid.password = "Password must be combination alphanumeric";
+      valid.password =
+        "Passwordnya harus kombinasi angka, huruf besar kecil, dan simbol";
 
     // phone validation
-    if (!form.phoneNumber) valid.phoneNumber = "Input your phone number";
+    if (!form.phoneNumber) valid.phoneNumber = "upss, nomornya belum diinput";
     else if (!form.phoneNumber.match(phoneRegex))
-      valid.phoneNumber = "Invalid phone number";
+      valid.phoneNumber = "tetot, nomor kamu salah";
 
     setError({
       email: valid.email,
@@ -59,34 +60,32 @@ const Register = () => {
       phoneNumber: valid.phoneNumber,
     });
 
+    console.log(form, "ini form");
+
     if (valid.email == "" && valid.password == "" && valid.phoneNumber == "") {
       setIsLoading(true);
       e.target.disabled = true;
-      toast.promise(
-        register(form.email, form.password, form.phoneNumber, controller).then(
-          (res) => {
-            e.target.disabled = false;
-            setIsLoading(false);
-            return res.data.msg;
-          }
-        ),
-        {
-          loading: "Please wait a moment",
-          success: () => {
-            navigate("/auth/login", {
-              replace: true,
-            });
-            return "Register successful! You can login now";
-          },
-          error: ({ response }) => {
-            setIsLoading(false);
-            e.target.disabled = false;
 
-            return response.data.msg;
-          },
-        },
-        { success: { duration: Infinity }, error: { duration: Infinity } }
+      const response = await register(
+        form.email,
+        form.password,
+        form.phoneNumber,
+        controller
       );
+
+      e.target.disabled = false;
+      setIsLoading(false);
+      if (response.status == "201") {
+        navigate("/auth/login", {
+          replace: true,
+        });
+        return "Register successful! You can login now";
+      } else {
+        setIsLoading(false);
+        e.target.disabled = false;
+        console.log(response, "ini error");
+      }
+      console.log(response, "this response");
     }
   }
 
@@ -103,12 +102,12 @@ const Register = () => {
     <>
       <header className="flex justify-between mb-10">
         <Link to="/">
-          <div className="font-extrabold flex flex-row justify-center gap-4">
-            <img src={icon} alt="logo" width="30px" />
-            <h1 className="text-xl">jokopi.</h1>
+          <div className="font-bold flex flex-row justify-center gap-4">
+            <img src={icon} alt="logo" width="100px" />
+            <h1 className="text-xl py-9">Kopi Boss 72</h1>
           </div>
         </Link>
-        <div className="text-xl font-semibold text-tertiary">Login</div>
+        <div className="text-xl font-semibold text-tertiary py-9">Daftar</div>
       </header>
       <section className="mt-16">
         <form className="space-y-4 md:space-y-4 relative">
@@ -118,7 +117,7 @@ const Register = () => {
               htmlFor="email"
               className="text-[#4F5665] font-bold"
             >
-              Email address :
+              Alamat Email :
             </label>
             <input
               type="text"
@@ -128,7 +127,7 @@ const Register = () => {
                 `border-gray-400 border-2 rounded-2xl p-3 w-full mt-2` +
                 (error.email != "" ? " border-red-500" : "")
               }
-              placeholder="Enter your email address"
+              placeholder="Masukin Email yang mau didaftar"
               value={form.email}
               onChange={onChangeForm}
             />
@@ -152,7 +151,7 @@ const Register = () => {
                 `border-gray-400 border-2 rounded-2xl p-3 w-full mt-2` +
                 (error.password != "" ? " border-red-500" : "")
               }
-              placeholder="Enter your password"
+              placeholder="Passwordnyaaa??"
               value={form.password}
               onChange={onChangeForm}
             />
@@ -166,7 +165,7 @@ const Register = () => {
               htmlFor="phoneNumber"
               className="text-[#4F5665] font-bold"
             >
-              Phone Number :
+              Nomor Telepon :
             </label>
             <input
               type="text"
@@ -176,7 +175,7 @@ const Register = () => {
                 `border-gray-400 border-2 rounded-2xl p-3 w-full mt-2` +
                 (error.phoneNumber != "" ? " border-red-500" : "")
               }
-              placeholder="Enter your phone number"
+              placeholder="08- berapa kak?"
               value={form.phoneNumber}
               onChange={onChangeForm}
             />
@@ -218,9 +217,9 @@ const Register = () => {
             ) : (
               ""
             )}
-            Signup
+            Daftar
           </button>
-          <button
+          {/* <button
             type="submit"
             className="w-full text-tertiary bg-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-2xl text-lg p-3 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 shadow-xl inline-flex justify-center items-center"
           >
@@ -231,16 +230,16 @@ const Register = () => {
               className="w  -5 h-5 mr-2"
             />
             <span>Signup with Google</span>
-          </button>
+          </button> */}
           <div className="inline-flex items-center justify-center w-full">
             <hr className="w-full h-px my-6 bg-gray-200 border-0 dark:bg-gray-700" />
             <span className="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 w-64 text-center">
-              Already have a account?
+              Sudah punya akun?
             </span>
           </div>
           <Link to="/auth/login">
             <button className="w-full text-white bg-tertiary focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-2xl text-lg p-3 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 shadow-xl lg:mb-20">
-              Login here
+              Masuk sekarang
             </button>
           </Link>
         </form>

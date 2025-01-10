@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import icon from "../../assets/jokopi.svg";
+import icon from "../../assets/kopiboss72.png";
 import { profileAction } from "../../redux/slices/profile.slice";
 import { uinfoAct } from "../../redux/slices/userInfo.slice";
 import { login } from "../../utils/dataProvider/auth";
@@ -13,7 +13,7 @@ import useDocumentTitle from "../../utils/documentTitle";
 
 const Login = () => {
   const navigate = useNavigate();
-  useDocumentTitle("Login");
+  // useDocumentTitle("Login");
 
   const controller = React.useMemo(() => new AbortController(), []);
   const [form, setForm] = React.useState({
@@ -33,8 +33,8 @@ const Login = () => {
     toast.dismiss(); // dismiss all toast
     const valid = { email: "", password: "" };
 
-    if (!form.email) valid.email = "Input your email address";
-    if (!form.password) valid.password = "Input your password";
+    if (!form.email) valid.email = "Emailnya belum dimasukin tuh";
+    if (!form.password) valid.password = "Passwordnya diketik dulu yah";
 
     setError({
       email: valid.email,
@@ -63,20 +63,15 @@ const Login = () => {
         {
           loading: () => {
             e.target.disabled = true;
-            return "Please wait a moment";
+            return "Tunggu Sebentar yaa!!";
           },
           success: () => {
             navigate("/products");
-            toast.success("Welcome to jokopi!\nYou can order for now!", {
+            toast.success("Selamat datang!\nNikmati petualangan barumu", {
               icon: "👋",
               duration: Infinity,
             }); // add toast welcome
-            return (
-              <>
-                Login successful!
-                <br /> Redirecting you
-              </>
-            );
+            return <>Berhasil Masuk!</>;
           },
           error: () => {
             setIsLoading(false);
@@ -110,13 +105,13 @@ const Login = () => {
     <>
       <header className="flex justify-between mb-10">
         <Link to="/">
-          <div className="font-extrabold flex flex-row justify-center gap-4">
-            <img src={icon} alt="logo" width="30px" />
-            <h1 className="text-xl">jokopi.</h1>
+          <div className="font-bold flex flex-row justify-center gap-4">
+            <img src={icon} alt="logo" width="100px" />
+            <h1 className="text-xl py-9">Kopi Boss 72</h1>
           </div>
         </Link>
-        <div className="text-lg md:text-xl font-semibold text-tertiary">
-          Login
+        <div className="text-lg md:text-xl font-semibold text-tertiary py-9">
+          Masuk
         </div>
       </header>
       <section className="mt-16">
@@ -127,7 +122,7 @@ const Login = () => {
               htmlFor="email"
               className="text-[#4F5665] font-bold"
             >
-              Email address :
+              Alamat Email :
             </label>
             <input
               type="text"
@@ -137,7 +132,7 @@ const Login = () => {
                 `border-gray-400 border-2 rounded-2xl p-3 w-full mt-2` +
                 (error.email != "" ? " border-red-500" : "")
               }
-              placeholder="Enter your email address"
+              placeholder="Masukin Email dulu yah"
               value={form.email}
               onChange={onChangeForm}
             />
@@ -161,7 +156,7 @@ const Login = () => {
                 `border-gray-400 border-2 rounded-2xl p-3 w-full mt-2` +
                 (error.password != "" ? " border-red-500" : "")
               }
-              placeholder="Enter your password"
+              placeholder="Passwordnya jangan lupa"
               value={form.password}
               onChange={onChangeForm}
             />
@@ -195,7 +190,7 @@ const Login = () => {
               className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
               name="rememberMe"
             >
-              Forgot password?
+              Lupa Password?
             </Link>
           </div>
           <button
@@ -232,9 +227,9 @@ const Login = () => {
             ) : (
               ""
             )}
-            Login
+            Masuk
           </button>
-          <button
+          {/* <button
             type="submit"
             className="w-full text-tertiary bg-white focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-2xl text-base md:text-lg p-3 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 shadow-xl inline-flex justify-center items-center"
           >
@@ -245,16 +240,16 @@ const Login = () => {
               className="w  -5 h-5 mr-2"
             />
             <span>Login with Google</span>
-          </button>
+          </button> */}
           <div className="inline-flex items-center justify-center w-full">
             <hr className="w-full h-px my-6 bg-gray-200 border-0 dark:bg-gray-700" />
             <span className="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2 w-56">
-              Don’t have an account?
+              Belum punya akun, nih?
             </span>
           </div>
           <Link to="/auth/register">
             <button className="w-full text-white bg-tertiary focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-2xl text-base md:text-lg p-3 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 shadow-xl lg:mb-20">
-              Sign up here
+              Daftar disini
             </button>
           </Link>
         </form>

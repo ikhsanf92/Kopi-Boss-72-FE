@@ -68,7 +68,7 @@ function Profile() {
     setEditPassModal(!editPassModal);
   };
 
-  useDocumentTitle("Profile");
+  // useDocumentTitle("Profile");
   useEffect(() => {
     // setIsLoading(true);
     // fetchProfile(userInfo.token)
@@ -177,7 +177,7 @@ function Profile() {
   const ActionList = () => (
     <div className="flex flex-col items-center">
       <p className="text-tertiary text-xl mb-4 text-center font-bold">
-        Do you want to save the change?
+        Udah yakin mau diubah nih?
       </p>
       <button
         className="bg-tertiary border-2  secondary py-4 w-[75%] rounded-2xl mb-3 text-white font-semibold text-xl shadow-lg disabled:cursor-not-allowed disabled:bg-gray-400"
@@ -185,17 +185,14 @@ function Profile() {
         onClick={saveHandler}
         disabled={(isEqual(form, data) && !selectedFile) || isProcess}
       >
-        Save Change
+        Simpan
       </button>
       <button
         className="bg-secondary border-2  secondary py-4 w-[75%] rounded-2xl mb-3 text-tertiary font-semibold text-xl shadow-lg  disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-white"
         onClick={() => setForm({ ...data })}
         disabled={isEqual(form, data) || isProcess}
       >
-        Cancel
-      </button>
-      <button className="mt-10 bg-white border-2  secondary py-4 w-[75%] rounded-2xl mb-8 text-tertiary font-semibold shadow-lg">
-        Log out
+        Batal
       </button>
     </div>
   );
@@ -211,7 +208,7 @@ function Profile() {
           <main className="bg-profile">
             <div className="global-px py-10 space-y-3">
               <section className="text-white text-2xl font-extrabold">
-                User Profile
+                Profil Pengguna
               </section>
               <section className="flex flex-col lg:flex-row bg-white rounded-2xl">
                 <section className="flex-1 flex flex-col items-center p-10">
@@ -239,14 +236,14 @@ function Profile() {
                     htmlFor="imageUp"
                     className="bg-secondary py-3 w-[75%] rounded-2xl mb-3 text-tertiary font-semibold shadow-lg text-center cursor-pointer"
                   >
-                    Choose photo
+                    Pilih Foto
                   </label>
                   <button
                     className="bg-tertiary disabled:bg-gray-400 secondary py-3 w-[75%] rounded-2xl mb-8 text-white font-semibold shadow-lg"
                     onClick={handleClearClick}
                     disabled={selectedFile ? false : true}
                   >
-                    Remove photo
+                    Hapus Foto
                   </button>
                   <button
                     className="bg-white border-2  secondary py-4 w-[75%] rounded-2xl mb-8 text-tertiary font-semibold shadow-lg"
@@ -272,11 +269,11 @@ function Profile() {
                     >
                       <img src={iconPen} alt="" />
                     </button>
-                    <p className="text-primary text-xl font-bold">Contacts</p>
+                    <p className="text-primary text-xl font-bold">Kontak</p>
                     <div className="grid lg:grid-cols-[55%_35%] gap-x-5 gap-y-8 py-5">
                       <div className="flex flex-col">
                         <label htmlFor="email" className="text-[#9f9f9f]">
-                          Email Address
+                          Alamat Email
                         </label>
                         <input
                           type="text"
@@ -290,7 +287,7 @@ function Profile() {
                       </div>
                       <div className="flex flex-col">
                         <label htmlFor="email" className="text-[#9f9f9f]">
-                          Mobile number
+                          Nomor Telepon
                         </label>
                         <input
                           type="text"
@@ -304,7 +301,7 @@ function Profile() {
                       </div>
                       <div className="flex flex-col">
                         <label htmlFor="email" className="text-[#9f9f9f]">
-                          Delivery Address
+                          Alamat Antar
                         </label>
                         <input
                           type="text"
@@ -321,7 +318,7 @@ function Profile() {
                     <div className="grid lg:grid-cols-[55%_35%] gap-x-5 gap-y-8 py-5">
                       <div className="input-profile">
                         <label htmlFor="email" className="text-[#9f9f9f]">
-                          Display name
+                          Username
                         </label>
                         <input
                           type="text"
@@ -335,7 +332,7 @@ function Profile() {
                       </div>
                       <div className="input-profile">
                         <label htmlFor="email" className="text-[#9f9f9f]">
-                          Birthdate
+                          Tanggal Lahir
                         </label>
                         <input
                           type="date"
@@ -349,7 +346,7 @@ function Profile() {
                       </div>
                       <div className="input-profile">
                         <label htmlFor="email" className="text-[#9f9f9f]">
-                          First name
+                          Nama Depan
                         </label>
                         <input
                           type="text"
@@ -364,7 +361,7 @@ function Profile() {
                       <div className="input-profile hidden lg:block"></div>
                       <div className="input-profile">
                         <label htmlFor="email" className="text-[#9f9f9f]">
-                          Last name
+                          Nama Belakang
                         </label>
                         <input
                           type="text"
@@ -397,7 +394,7 @@ function Profile() {
                         >
                           <div className="block"></div>
                         </label>
-                        <label htmlFor="genderMale">Male</label>
+                        <label htmlFor="genderMale">Pria</label>
                       </div>
                       <div className="female flex items-center gap-2">
                         <input
@@ -418,7 +415,7 @@ function Profile() {
                         >
                           <div className="block"></div>
                         </label>
-                        <label htmlFor="genderFemale">Female</label>
+                        <label htmlFor="genderFemale">Wanita</label>
                       </div>
                     </div>
                   </form>

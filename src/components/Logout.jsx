@@ -25,7 +25,7 @@ function Logout() {
         dispatch(uinfoAct.dismissToken());
         dispatch(contextAct.closeLogout());
         profileAction.reset();
-        toast.success("See ya, coffeeholic!");
+        toast.success("Terimakasih sudah mampir!!!");
         navigate("/", { replace: true });
       })
       .catch((err) => {
@@ -44,7 +44,7 @@ function Logout() {
   return (
     userInfo.token && (
       <Modal isOpen={context.logout} onClose={onClose}>
-        <p className="mb-4">Are you sure you want to logout?</p>
+        <p className="mb-4">Yakin nih mau cabut?</p>
         <section className="flex flex-row gap-2">
           <button
             onClick={logoutHandler}
@@ -52,13 +52,13 @@ function Logout() {
               isLoading && "loading"
             } btn px-5 btn-primary text-white`}
           >
-            Yes
+            Iya
           </button>
           <button
             className="btn px-5 bg-white hover:bg-gray-200 border-0 "
             onClick={onClose}
           >
-            No
+            Tidak
           </button>
         </section>
       </Modal>

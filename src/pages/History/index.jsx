@@ -1,27 +1,20 @@
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
-import loadingImage from '../../assets/images/loading.svg';
-import productPlaceholder from '../../assets/images/placeholder-image.webp';
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
-import Modal from '../../components/Modal';
+import loadingImage from "../../assets/images/loading.svg";
+import productPlaceholder from "../../assets/images/placeholder-image.webp";
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
+import Modal from "../../components/Modal";
 import {
   getTransactionDetail,
   getTransactionHistory,
-} from '../../utils/dataProvider/transaction';
-import useDocumentTitle from '../../utils/documentTitle';
-import {
-  formatDateTime,
-  n_f,
-} from '../../utils/helpers';
+} from "../../utils/dataProvider/transaction";
+import useDocumentTitle from "../../utils/documentTitle";
+import { formatDateTime, n_f } from "../../utils/helpers";
 
 function History() {
   const authInfo = useSelector((state) => state.userInfo);
@@ -61,7 +54,7 @@ function History() {
   const [dataDetail, setDataDetail] = useState({
     ...initialValue,
   });
-  useDocumentTitle("History");
+  // useDocumentTitle("History");
   const detailController = useMemo(() => new AbortController(), [detail]);
 
   const fetchDetail = async () => {
@@ -120,16 +113,16 @@ function History() {
         {dataDetail.isLoading ? (
           <img src={loadingImage} alt="loading..." className="m-2 w-8 h-8" />
         ) : (
-          <section className="flex flex-col-reverse md:flex-row gap-5 md:w-[80vw] duration-200">
-            <aside className="flex-[2_2_0%] space-y-3">
-              <p className="font-semibold">Products</p>
+          <section className="flex flex-col-reverse md:flex-row gap-5 md:w-[80vw] duration-200 border p-4 rounded-lg shadow-lg">
+            <aside className="flex-[2_2_0%] space-y-3 border-b pb-4">
+              <p className="font-semibold text-lg mb-5">Menu yang Dipesan</p>
               <div className="flex flex-col h-72 overflow-y-scroll pr-2">
                 {dataDetail.products.map((item) => (
                   <div
                     key={item.id}
-                    className="flex justify-between text-sm md:text-base gap-2"
+                    className="flex flex-col text-sm md:text-base gap-2 border-b pb-2 mb-2"
                   >
-                    <div>
+                    <div className="flex items-center gap-4">
                       <div className="avatar">
                         <div className="w-16 rounded-xl">
                           <img
@@ -138,55 +131,49 @@ function History() {
                                 ? item.product_img
                                 : productPlaceholder
                             }
+                            alt="Product"
                           />
                         </div>
                       </div>
+                      <div className="flex-1">
+                        <p className="text-gray-500 text-xs uppercase">Menu</p>
+                        <p className="font-medium">{item.product_name}</p>
+                        <p className="text-gray-500 text-xs">x{item.qty}</p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <p className="font-medium">
-                        {item.product_name} x{item.qty}
-                      </p>
-                      <p>{item.size}</p>
-                      {/* <p>IDR {n_f(item.subtotal)}</p> */}
-                    </div>
-                    <div className="">
-                      <p className="">IDR {n_f(item.subtotal)}</p>
+                    <div className="flex justify-between items-center mt-2">
+                      <div className="text-gray-500 text-xs uppercase">
+                        Harga
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <p className="font-medium">IDR {n_f(item.subtotal)}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
             </aside>
             <aside className="flex-1 flex flex-col gap-1 text-sm">
-              <p className="font-bold mb-2">Detail Information</p>
-              <div className="flex justify-between">
-                <p className="font-semibold">Grand Total</p>
-                <p>IDR {n_f(dataDetail.grand_total)}</p>
+              <p className="font-bold text-lg mb-2">Detail Pesanan</p>
+              <div className="flex justify-between py-1 border-b">
+                <p className="font-semibold">Total Harga</p>
+                <p className="font-medium">IDR {n_f(dataDetail.grand_total)}</p>
               </div>
-              <div className="flex justify-between">
-                <p className="font-semibold">Payment Method</p>
-                <p>{dataDetail.payment_name}</p>
-              </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between py-1 border-b">
                 <p className="font-semibold">Status</p>
                 <p>{dataDetail.status_name}</p>
               </div>
-              <div className="flex justify-between">
-                <p className="font-semibold">Delivery Type</p>
-                <p>{dataDetail.delivery_name}</p>
-              </div>
-              <div className="flex justify-between">
-                <p className="font-semibold">Transaction at</p>
+              <div className="flex justify-between py-1 border-b">
+                <p className="font-semibold">Waktu Pesan</p>
                 <p>{formatDateTime(dataDetail.transaction_time)}</p>
               </div>
-              <div className="flex flex-col mt-1">
-                <p className="font-semibold">Delivery address</p>
-                <p className="break-words">
-                  {dataDetail.delivery_address || "no address"}
-                </p>
+              <div className="flex justify-between py-1 border-b">
+                <p className="font-semibold">Nama Pemesan</p>
+                <p>{dataDetail.delivery_address || "no address"}</p>
               </div>
-              <div className="flex flex-col mt-1">
-                <p className="font-semibold">Notes</p>
-                <p className="break-words">{dataDetail.notes || "no notes"}</p>
+              <div className="flex justify-between py-1">
+                <p className="font-semibold">Nomor Meja</p>
+                <p>{dataDetail.notes || "no notes"}</p>
               </div>
             </aside>
           </section>
@@ -196,9 +183,9 @@ function History() {
         <section className="global-px">
           <div className="flex flex-col items-center p-3">
             <h2 className="text-3xl drop-shadow-[0px_10px_10px_rgba(0,0,0,0.6)] font-extrabold mb-5 text-center">
-              Let&#8242;s see what you have bought!
+              Yuk, cek menu keren yang udah kamu checkout!
             </h2>
-            <p>Select items to see detail</p>
+            <p>Pilih menunya, biar bisa lihat detailnya!</p>
           </div>
           {/* <nav className="flex flex-row justify-end gap-4">
             <li className="list-none cursor-pointer select-none" id="selectAll">

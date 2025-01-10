@@ -1,9 +1,10 @@
-import api from './base';
+import api from "./base";
 
 export const createTransaction = (
   {
     payment_id = 1,
     delivery_id = 1,
+    promo_id = 0,
     status_id = 3,
     address = "Table no 4",
     notes = "Makkah",
@@ -15,6 +16,7 @@ export const createTransaction = (
   const body = {
     payment_id,
     delivery_id,
+    promo_id: promo_id || 0,
     status_id,
     products,
     address,
@@ -23,6 +25,17 @@ export const createTransaction = (
   return api.post(`/apiv1/transactions`, body, {
     signal: controller.signal,
     headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export const checkCode = (code, produtId, token, controller) => {
+  return api.get("/apiv1/promo/check", {
+    params: {
+      code,
+      product_id,
+    },
+    headers: { Authorization: `Bearer ${token}` },
+    signal: controller.signal,
   });
 };
 

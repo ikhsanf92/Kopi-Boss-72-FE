@@ -4,13 +4,11 @@ import { now } from "lodash";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
-import icon from "../../assets/jokopi.svg";
+import icon from "../../assets/kopiboss72.png";
 import { forgotPass } from "../../utils/dataProvider/auth";
 import useDocumentTitle from "../../utils/documentTitle";
 
 const ForgotPass = () => {
-  useDocumentTitle("Forgot Password");
-
   const controller = React.useMemo(() => new AbortController(), []);
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = React.useState("");
@@ -26,7 +24,7 @@ const ForgotPass = () => {
     setResend(now() + 2 * 60 * 1000); // now + 2 minutes
     let err = "";
     if (email.length < 1) {
-      err = "Must input email!";
+      err = "etsss, masukin emailnya dulu dong";
     }
     setError(err);
     if (!isLoading && err.length < 1) {
@@ -41,8 +39,8 @@ const ForgotPass = () => {
           return res.data;
         }),
         {
-          loading: "Please wait a moment",
-          success: "We sent a code to your email!",
+          loading: "Tunggu Sebentar yaa!!",
+          success: "Kodenya udah dikirim ke email kamu",
           error: (err) => {
             e.target.disabled = false;
             setIsLoading(false);
@@ -79,8 +77,8 @@ const ForgotPass = () => {
       <header className="flex justify-center mb-10">
         <Link to="/">
           <div className="font-extrabold flex flex-row justify-center gap-4">
-            <img src={icon} alt="logo" width="30px" />
-            <h1 className="text-xl">jokopi.</h1>
+            <img src={icon} alt="logo" width="100px" />
+            <h1 className="text-xl mt-9">Kopi Boss 72</h1>
           </div>
         </Link>
       </header>
@@ -92,10 +90,10 @@ const ForgotPass = () => {
         >
           <div className="space-y-5">
             <h2 className="font-bold text-3xl text-center">
-              Forgot your password?
+              Oops, lupa password?
             </h2>
             <p className="text-xl text-center">
-              Don’t worry, we got your back!
+              Jangan Panik, password kamu bisa di-reset kok!
             </p>
           </div>
           <div>
@@ -107,7 +105,7 @@ const ForgotPass = () => {
                 `border-gray-400 border-2 rounded-2xl p-3 w-full mt-2` +
                 (error !== "" ? " border-red-500" : "")
               }
-              placeholder="Enter your email adress to get link"
+              placeholder="Ketik email kamu disini, ya!"
               value={email}
               onChange={handleChange}
             />
@@ -120,18 +118,18 @@ const ForgotPass = () => {
             className="w-full text-tertiary bg-secondary focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-2xl text-lg p-3 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 shadow-xl"
             onClick={forgotPassHandler}
           >
-            Send
+            Kirim
           </button>
         </form>
         {resend >= now() ? (
           <section className="text-center mt-10 space-y-2">
-            <p>Click here if you didn’t receive any link in 2 minutes</p>
+            <p>Belum dapet link? Klik di sini aja, yaa!</p>
             <p className="font-bold">{displaycd}</p>
             <button
               type="submit"
               className="w-full text-white bg-tertiary focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-2xl text-lg p-3 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 shadow-xl"
             >
-              Resend Link
+              Kirim Lagi
             </button>
           </section>
         ) : (

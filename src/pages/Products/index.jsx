@@ -124,18 +124,18 @@ function Products(props) {
     fetchPromo();
   }, []);
 
-  useDocumentTitle(props.title);
+  // useDocumentTitle(props.title);
   return (
     <>
       <Header />
 
       <main className="flex flex-col-reverse md:flex-row global-px">
         <section className="flex-1 flex flex-col items-center gap-5 py-5 md:border-r-2 border-solid md:pr-6">
-          <h2 className="font-bold text-2xl">Promo Today</h2>
+          <h2 className="font-bold text-2xl">Promo Hari Ini</h2>
           <p className="text-center">
-            Coupons will be updated every weeks.
+            Kupon Promo tersedia setiap minggu
             <br />
-            Check them out!
+            Jangan sampai ketinggalan
           </p>
           <div className="flex flex-col justify-center gap-5">
             {promoLoad ? (
@@ -148,9 +148,11 @@ function Products(props) {
             ) : promo.length < 1 ? (
               <div className="flex flex-col text-center">
                 <img src={illustrationsPromo} width={200} />
-                <p className="text-tertiary font-semibold">No promo today</p>
+                <p className="text-tertiary font-semibold">
+                  Yahh, lagi ga ada promo nih
+                </p>
                 <p className="text-black font-medium text-sm">
-                  Dont worry, check tommorow
+                  Coba besok lagi ya
                 </p>
               </div>
             ) : (
@@ -173,6 +175,7 @@ function Products(props) {
                   <div className="flex-[2_2_0%]">
                     <p className="font-bold">{promo.name}</p>
                     <p className="text-sm">{promo.desc}</p>
+                    <p className="text-sm">Kode Promo : {promo.coupon_code}</p>
                   </div>
 
                   {Number(userInfo.role) > 1 && (
@@ -193,7 +196,7 @@ function Products(props) {
                 onClick={() => navigate("/promo/new")}
                 className="btn btn-block btn-secondary text-tertiary font-bold normal-case"
               >
-                Add new promo
+                Buat Promo Baru
               </button>
             </div>
           )}
@@ -211,7 +214,7 @@ function Products(props) {
                 to="/products"
                 end
               >
-                Favorite & Promo
+                Semua Menu
               </NavLink>
             </li>
             <li>
@@ -304,7 +307,7 @@ function Products(props) {
                       htmlFor="orderBy"
                       className="block mb-2 text-sm font-medium text-gray-900"
                     >
-                      Order by
+                      Urut Berdasarkan
                     </label>
                     <select
                       id="orderBy"
@@ -312,13 +315,13 @@ function Products(props) {
                       value={sort}
                       onChange={(e) => setSort(e.target.value)}
                     >
-                      <option value={undefined}>Choose a order</option>
-                      <option value="price_asc">Price (Asc)</option>
-                      <option value="price_desc">Price (Desc)</option>
-                      <option value="id_desc">Newest</option>
-                      <option value="id_asc">Oldest</option>
-                      <option value="category_asc">Category (Asc)</option>
-                      <option value="category_desc">Category (Desc)</option>
+                      <option value={undefined}>Pilih Urutan</option>
+                      <option value="price_asc">Termurah</option>
+                      <option value="price_desc">Termahal</option>
+                      <option value="id_desc">Terbaru</option>
+                      <option value="id_asc">Terlama</option>
+                      <option value="category_asc">Kategori (Asc)</option>
+                      <option value="category_desc">Kategori (Desc)</option>
                     </select>
                   </aside>
                 </section>
@@ -350,16 +353,14 @@ function Products(props) {
             />
           </Routes>
 
-          <section className="my-6 text-tertiary">
-            *the price has been cutted by discount appears
-          </section>
+          <section className="my-6 text-tertiary"></section>
           {Number(props.userInfo.role) > 1 && (
             <div className="mt-auto flex w-full">
               <button
                 onClick={() => navigate("/products/new")}
                 className="btn btn-block btn-primary text-white font-bold normal-case"
               >
-                Add new product
+                Tambah Menu Baru
               </button>
             </div>
           )}

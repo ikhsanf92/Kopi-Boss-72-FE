@@ -23,8 +23,8 @@ export const editProfile = (
   controller
 ) => {
   const body = new FormData();
-  // append
-  // console.log(image);
+  // append;
+  console.log(image);
   body.append("image", image);
   body.append("display_name", display_name);
   body.append("address", address);
@@ -47,7 +47,6 @@ export const editProfile = (
   return api.patch("/apiv1/userPanel/profile", body, {
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
     },
     signal: controller.signal,
   });

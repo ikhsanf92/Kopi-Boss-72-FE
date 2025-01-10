@@ -41,7 +41,7 @@ function Sidebar({ onClose }) {
                 </>
               ) : (
                 <>
-                  <p className="font-medium">Guest</p>
+                  <p className="font-medium">Sobat Ngopi</p>
                   <p className="text-sm ">
                     {/* <Link to={"/auth/login"} className="text-yellow-600">
                       Login
@@ -89,7 +89,7 @@ function Sidebar({ onClose }) {
                   className="block p-4 text-sm font-semibold text-gray-400 hover:bg-tertiary/40 hover:text-tertiary rounded"
                   to="/"
                 >
-                  Home
+                  Beranda
                 </NavLink>
               </li>
               <li className="mb-1">
@@ -97,7 +97,7 @@ function Sidebar({ onClose }) {
                   className="block p-4 text-sm font-semibold text-gray-400 hover:bg-tertiary/40 hover:text-tertiary rounded"
                   to="/products"
                 >
-                  Products
+                  Menu
                 </NavLink>
               </li>
               <li className="mb-1">
@@ -105,7 +105,7 @@ function Sidebar({ onClose }) {
                   className="block p-4 text-sm font-semibold text-gray-400 hover:bg-tertiary/40 hover:text-tertiary rounded"
                   to="/cart"
                 >
-                  Your Cart
+                  Keranjang
                 </NavLink>
               </li>
               <li className="mb-1">
@@ -113,7 +113,7 @@ function Sidebar({ onClose }) {
                   className="block p-4 text-sm font-semibold text-gray-400 hover:bg-tertiary/40 hover:text-tertiary rounded"
                   to="/history"
                 >
-                  History
+                  Riwayat
                 </NavLink>
               </li>
               {Number(userInfo.role) > 1 && (
@@ -131,7 +131,7 @@ function Sidebar({ onClose }) {
                       className="block p-4 text-sm font-semibold text-gray-400 hover:bg-tertiary/40 hover:text-tertiary rounded"
                       to="/manage-order"
                     >
-                      Manage Order
+                      Kelola Pesanan
                     </NavLink>
                   </li>
                 </>
@@ -145,7 +145,7 @@ function Sidebar({ onClose }) {
                 className="block p-4 text-sm font-semibold text-gray-400 hover:bg-tertiary/40 hover:text-tertiary rounded"
                 to="/history"
               >
-                Logout
+                Keluar
               </button>
             ) : (
               <div className="pt-6">
@@ -153,18 +153,18 @@ function Sidebar({ onClose }) {
                   className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-xl shadow-md"
                   to="/auth/login"
                 >
-                  Login
+                  Masuk
                 </NavLink>
                 <NavLink
                   className="block px-4 py-3 mb-2 leading-loose text-xs text-center font-semibold bg-secondary hover:bg-secondary-focus  rounded-xl shadow-md"
                   to="/auth/register"
                 >
-                  Sign Up
+                  Daftar
                 </NavLink>
               </div>
             )}
             <p className="my-4 text-xs text-center text-gray-400">
-              <span>Copyright © 2023</span>
+              <span>Copyright Kopi Boss 72 © 2024</span>
             </p>
           </div>
         </div>

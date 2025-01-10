@@ -35,14 +35,14 @@ export const createProductEntry = (
   bodyForm.append("desc", desc);
   bodyForm.append("price", price);
 
-  // const body = {
-  //   name,
-  //   price,
-  //   category_id,
-  //   desc,
-  //   image,
-  // };
-  // console.log(image);
+  const body = {
+    name,
+    price,
+    category_id,
+    desc,
+    image,
+  };
+  console.log(image);
   return api.post("/apiv1/products", bodyForm, {
     headers: {
       Authorization: `Bearer ${token}`,

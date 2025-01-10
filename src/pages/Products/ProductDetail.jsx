@@ -1,28 +1,19 @@
 /* eslint-disable react/prop-types */
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import React, { useEffect, useState } from "react";
 
-import toast from 'react-hot-toast';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import {
-  NavLink,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
-import loadingImage from '../../assets/images/loading.svg';
-import lostImage from '../../assets/images/not_found.svg';
-import productPlaceholder from '../../assets/images/placeholder-image.webp';
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
-import { cartActions } from '../../redux/slices/cart.slice';
-import { getProductbyId } from '../../utils/dataProvider/products';
-import useDocumentTitle from '../../utils/documentTitle';
+import loadingImage from "../../assets/images/loading.svg";
+import lostImage from "../../assets/images/not_found.svg";
+import productPlaceholder from "../../assets/images/placeholder-image.webp";
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
+import { cartActions } from "../../redux/slices/cart.slice";
+import { getProductbyId } from "../../utils/dataProvider/products";
+import useDocumentTitle from "../../utils/documentTitle";
+import { addCart } from "../../utils/dataProvider/userPanel";
 
 function ProductDetail(props) {
   const [form, setForm] = useState({
@@ -55,6 +46,8 @@ function ProductDetail(props) {
     setIsLoading(true);
     getProductbyId(productId, controller)
       .then((response) => {
+        console.log(response.data.data);
+
         setDetail(response.data.data[0]);
         setIsLoading(false);
       })
@@ -140,8 +133,8 @@ function ProductDetail(props) {
 
   const handleAddToCart = () => {
     const newItem = {
-      size: Number(form.size), // mengubah nilai form.size ke tipe data number
-      count: Number(form.count), // mengubah nilai form.count ke tipe data number
+      size: Number(form.size),
+      count: Number(form.count),
     };
     if (newItem.size < 1 || newItem.size > 3) {
       toast.error("Please choose size");
@@ -163,18 +156,33 @@ function ProductDetail(props) {
       })
     );
 
-    setCart((prevItems) => {
-      const index = prevItems.findIndex((item) => item.size === newItem.size); // cari indeks item dengan size yang sama
-      if (index !== -1) {
-        const newItems = [...prevItems]; // buat salinan array of objects yang sudah ada
-        newItems[index].count += newItem.count; // tambahkan jumlah count pada item yang sudah ada
-        return newItems; // kembalikan array of objects yang sudah diubah
-      } else {
-        return [...prevItems, newItem]; // tambahkan item baru jika tidak ada item dengan size yang sama
-      }
-    });
+    let newCart = [];
+    const findIndexCart = cart.findIndex((item) => item.size === newItem.size);
+    if (findIndexCart !== -1) {
+      newCart = [...cart];
+      newCart[index].count += newItem.count;
+    } else {
+      newCart = [...cart, newItem];
+    }
 
-    setForm({ size: "", count: 1 }); // reset nilai form setelah berhasil menambahkan item ke cart
+    setCart(newCart);
+
+    setForm({ size: "", count: 1 });
+
+    console.log(detail, cart);
+
+    toast.promise(
+      addCart(detail.id, newCart, userInfo.token).then((res) => {
+        return res;
+      }),
+      {
+        loading: "Sabar yaa...",
+        success: () => {
+          return "Berhasil masuk ke keranjang";
+        },
+        error: "aduh gagal nih",
+      }
+    );
   };
 
   const Detail = (props) => {
@@ -182,12 +190,12 @@ function ProductDetail(props) {
     const desc = !p.desc
       ? "This product does not have a description yet."
       : p.desc;
-    useDocumentTitle(p.name);
+    // useDocumentTitle(p.name);
     return (
       <main className="global-px py-10">
         <nav className="flex flex-row list-none gap-1">
           <li className="after:content-['>'] after:font-semibold text-primary">
-            <NavLink to="/products">Favorite & Promo </NavLink>
+            <NavLink to="/products">Terbaru</NavLink>
           </li>
           <li className="text-tertiary font-semibold">{p.name}</li>
         </nav>
@@ -198,121 +206,66 @@ function ProductDetail(props) {
               alt={p.name}
               className="aspect-square object-cover rounded-full w-64"
             />
-            <section className="p-4 px-8 w-full shadow-primary rounded-xl flex flex-col gap-8">
-              <p className="font-bold text-left text-xl">Delivery and Time</p>
-              <div className="select-none">
-                <ul className="flex flex-row gap-2 font-bold">
-                  <li>
-                    <input
-                      type="radio"
-                      id="dinein"
-                      name="delivery"
-                      value="1"
-                      className="hidden peer"
-                      checked={form.delivery === "1"}
-                      onChange={onChangeForm}
-                      required
-                    />
-                    <label
-                      htmlFor="dinein"
-                      className="inline-flex items-center justify-between p-2 text-gray-500 bg-[#BABABA59] rounded-lg cursor-pointer peer-checked:text-white peer-checked:bg-tertiary peer-checked:font-bold hover:text-gray-600 hover:bg-gray-100"
-                    >
-                      <div className="block">Dine in</div>
-                    </label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      id="doordelivery"
-                      name="delivery"
-                      value="2"
-                      className="hidden peer"
-                      checked={form.delivery === "2"}
-                      onChange={onChangeForm}
-                      required
-                    />
-                    <label
-                      htmlFor="doordelivery"
-                      className="inline-flex items-center justify-between p-2 text-gray-500 bg-[#BABABA59] rounded-lg cursor-pointer peer-checked:text-white peer-checked:bg-tertiary peer-checked:font-bold hover:text-gray-600 hover:bg-gray-100"
-                    >
-                      <div className="block">Door delivery</div>
-                    </label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      id="pickup"
-                      name="delivery"
-                      value="3"
-                      className="hidden peer"
-                      checked={form.delivery === "3"}
-                      onChange={onChangeForm}
-                      required
-                    />
-                    <label
-                      htmlFor="pickup"
-                      className="inline-flex items-center justify-between p-2 text-gray-500 bg-[#BABABA59] rounded-lg cursor-pointer peer-checked:text-white peer-checked:bg-tertiary peer-checked:font-bold hover:text-gray-600 hover:bg-gray-100"
-                    >
-                      <div className="block">Pick up</div>
-                    </label>
-                  </li>
-                </ul>
-              </div>
-              <div className="grid grid-cols-[20%_80%] items-center gap-y-8 mb-4">
-                <p>Now</p>
-                <div className="select-none">
-                  <ul className="flex flex-row gap-2 font-bold">
-                    <li>
-                      <input
-                        type="radio"
-                        id="now-true"
-                        name="now"
-                        value="1"
-                        checked={form.now === "1"}
-                        onChange={onChangeForm}
-                        className="hidden peer"
-                        required
-                      />
-                      <label
-                        htmlFor="now-true"
-                        className="inline-flex items-center justify-between p-2 px-7 text-gray-500 bg-[#BABABA59] rounded-lg cursor-pointer peer-checked:text-white peer-checked:bg-tertiary peer-checked:font-bold hover:text-gray-600 hover:bg-gray-100"
-                      >
-                        <div className="block">Yes</div>
-                      </label>
-                    </li>
-                    <li>
-                      <input
-                        type="radio"
-                        id="now-false"
-                        name="now"
-                        value="0"
-                        className="hidden peer"
-                        checked={form.now === "0"}
-                        onChange={onChangeForm}
-                        required
-                      />
-                      <label
-                        htmlFor="now-false"
-                        className="inline-flex items-center justify-between p-2 px-7 text-gray-500 bg-[#BABABA59] rounded-lg cursor-pointer peer-checked:text-white peer-checked:bg-tertiary peer-checked:font-bold hover:text-gray-600 hover:bg-gray-100"
-                      >
-                        <div className="block">No</div>
-                      </label>
-                    </li>
-                  </ul>
-                </div>
-                <p>Set time</p>
-                <div>
+            {/* <section className="p-4 px-8 w-full shadow-primary rounded-xl flex flex-col gap-8 flex-1 font-bold py-8 text-center space-y-4 text-xl">
+              <p>Pilih Ukurannya</p>
+              <div className="flex justify-center gap-4 list-none">
+                <li>
                   <input
-                    type="time"
-                    name="time"
-                    id="reservationtime"
-                    value={form.time}
+                    type="radio"
+                    id="regular-size"
+                    name="size"
+                    value="1"
+                    className="hidden peer"
+                    checked={form.size === "1"}
                     onChange={onChangeForm}
-                    className="bg-[#BABABA59] py-2 px-8 rounded-lg text-primary font-bold"
+                    required
                   />
-                </div>
+                  <label
+                    htmlFor="regular-size"
+                    className="inline-block bg-gray-400 rounded-full peer-checked:bg-secondary peer-checked:font-bold cursor-pointer"
+                  >
+                    <p className=" p-2 w-12 h-12 text-center ">R</p>
+                  </label>
+                </li>
+                <li>
+                  {" "}
+                  <input
+                    type="radio"
+                    id="large-size"
+                    name="size"
+                    value="2"
+                    className="hidden peer"
+                    checked={form.size === "2"}
+                    onChange={onChangeForm}
+                    required
+                  />
+                  <label
+                    htmlFor="large-size"
+                    className="inline-block bg-gray-400 rounded-full peer-checked:bg-secondary peer-checked:font-bold cursor-pointer"
+                  >
+                    <p className=" p-2 w-12 h-12 text-center ">L</p>
+                  </label>
+                </li>
+                <li>
+                  <input
+                    type="radio"
+                    id="xlargeSize"
+                    name="size"
+                    value="3"
+                    className="hidden peer"
+                    checked={form.size === "3"}
+                    onChange={onChangeForm}
+                    required
+                  />
+                  <label
+                    htmlFor="xlargeSize"
+                    className="inline-block bg-gray-400 rounded-full peer-checked:bg-secondary peer-checked:font-bold cursor-pointer"
+                  >
+                    <p className="p-2 w-12 h-12 text-center ">XL</p>
+                  </label>
+                </li>
               </div>
-            </section>
+            </section> */}
           </aside>
           <aside className="flex-1 flex flex-col gap-5 justify-between">
             <p className="font-black text-5xl uppercase w-full text-center mb-4">
@@ -321,8 +274,8 @@ function ProductDetail(props) {
             <p className="text-tertiary text-lg text-justify md:min-h-[200px]">
               {desc}
             </p>
-            <p className="text-tertiary text-lg mb-8">
-              Delivery only on <b>Monday to friday</b> at <b>1 - 7 pm</b>
+            <p className="text-tertiary text-lg mb-8 font-bold">
+              Sesuaikan Jumlah Pesananmu :
             </p>
             <div className="flex justify-between items-center">
               <div className="custom-number-input h-10 w-32">
@@ -357,87 +310,27 @@ function ProductDetail(props) {
               className="mt-4 block bg-tertiary text-white font-bold text-lg py-4 rounded-xl"
               onClick={handleAddToCart}
             >
-              Add to Cart
+              Masukkan ke Keranjang
             </button>
-            <button
+            {/* <button
               className="block bg-secondary disabled:bg-gray-300 disabled:cursor-not-allowed text-tertiary font-bold text-lg py-4 rounded-xl"
               disabled
             >
               Ask a Staff
-            </button>
+            </button> */}
           </aside>
         </section>
         <section className="flex flex-col md:flex-row gap-8">
-          <aside className="flex-1 font-bold rounded-xl shadow-primary px-5 py-8 text-center space-y-4 text-xl">
-            <p>Choose a size</p>
-            <div className="flex justify-center gap-4 list-none">
-              <li>
-                <input
-                  type="radio"
-                  id="regular-size"
-                  name="size"
-                  value="1"
-                  className="hidden peer"
-                  checked={form.size === "1"}
-                  onChange={onChangeForm}
-                  required
-                />
-                <label
-                  htmlFor="regular-size"
-                  className="inline-block bg-gray-400 rounded-full peer-checked:bg-secondary peer-checked:font-bold cursor-pointer"
-                >
-                  <p className=" p-2 w-12 h-12 text-center ">R</p>
-                </label>
-              </li>
-              <li>
-                {" "}
-                <input
-                  type="radio"
-                  id="large-size"
-                  name="size"
-                  value="2"
-                  className="hidden peer"
-                  checked={form.size === "2"}
-                  onChange={onChangeForm}
-                  required
-                />
-                <label
-                  htmlFor="large-size"
-                  className="inline-block bg-gray-400 rounded-full peer-checked:bg-secondary peer-checked:font-bold cursor-pointer"
-                >
-                  <p className=" p-2 w-12 h-12 text-center ">L</p>
-                </label>
-              </li>
-              <li>
-                <input
-                  type="radio"
-                  id="xlargeSize"
-                  name="size"
-                  value="3"
-                  className="hidden peer"
-                  checked={form.size === "3"}
-                  onChange={onChangeForm}
-                  required
-                />
-                <label
-                  htmlFor="xlargeSize"
-                  className="inline-block bg-gray-400 rounded-full peer-checked:bg-secondary peer-checked:font-bold cursor-pointer"
-                >
-                  <p className="p-2 w-12 h-12 text-center ">XL</p>
-                </label>
-              </li>
-            </div>
-          </aside>
           <aside className="flex-[3_3_0] rounded-xl shadow-primary flex items-center px-6 md:px-14 py-8 gap-4 flex-wrap lg:flex-nowrap">
             <div className="">
               <img
-                src={productPlaceholder}
+                src={p.img ? p.img : productPlaceholder}
                 alt=""
                 className="h-24 aspect-square object-cover rounded-full"
               />
             </div>
             <div className="flex-[4_4_0] min-w-[100px] space-y-2">
-              <p className="font-black uppercase text-xl text-center md:text-left">
+              <p className="font-black uppercase text-xl text-center md:text-left mt-13">
                 {p.name}
               </p>
               <div
@@ -446,22 +339,10 @@ function ProductDetail(props) {
                 }`}
               >
                 {filteredCart.map((item, idx) => {
-                  let sizeName;
-                  switch (item.size_id) {
-                    case 1:
-                      sizeName = "Regular";
-                      break;
-                    case 2:
-                      sizeName = "Large";
-                      break;
-                    case 3:
-                      sizeName = "Xtra Large";
-                      break;
-
-                    default:
-                      sizeName = "Regular";
-                      break;
-                  }
+                  const totalPrice = item.price * item.qty;
+                  const formattedPrice = new Intl.NumberFormat("id-ID").format(
+                    totalPrice
+                  );
                   return (
                     <div
                       className={`${
@@ -470,7 +351,7 @@ function ProductDetail(props) {
                       key={idx}
                     >
                       <p>
-                        x{item.qty} ({sizeName})
+                        x{item.qty} = IDR {formattedPrice}
                       </p>
                     </div>
                   );

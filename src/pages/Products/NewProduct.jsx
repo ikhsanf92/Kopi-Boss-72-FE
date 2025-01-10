@@ -12,7 +12,7 @@ import { createProductEntry } from "../../utils/dataProvider/products";
 import useDocumentTitle from "../../utils/documentTitle";
 
 export const NewProduct = (props) => {
-  useDocumentTitle("New Product");
+  // useDocumentTitle("New Product");
   const initialState = {
     name: "",
     price: "",
@@ -58,7 +58,7 @@ export const NewProduct = (props) => {
     }
 
     if (e.target.files[0].size > 2097152) {
-      return toast.error("Files must not exceed 2 MB");
+      return toast.error("Gambar tidak boleh lebih dari 2MB");
     }
 
     // I've kept this example simple by using the first image instead of multiple
@@ -89,7 +89,7 @@ export const NewProduct = (props) => {
         navigate(`/products/detail/${result.data.data[0].id}`, {
           replace: true,
         });
-        toast.success("Product added successfully");
+        toast.success("Menu berhasil ditambahkan");
       })
       .catch((err) => {
         toast.error(err.message);
@@ -99,7 +99,7 @@ export const NewProduct = (props) => {
   return (
     <>
       <Modal isOpen={cancel} onClose={() => setCancel(!cancel)}>
-        <p>Are you sure want to reset the form?</p>
+        <p>Kamu yakin mau reset formnya?</p>
         <section className="flex justify-center gap-x-5 mt-5">
           <button
             className="btn btn-error"
@@ -108,10 +108,10 @@ export const NewProduct = (props) => {
               setCancel(false);
             }}
           >
-            Yes
+            Ya
           </button>
           <button className="btn" onClick={() => setCancel(!cancel)}>
-            No
+            Tidak
           </button>
         </section>
       </Modal>
@@ -119,9 +119,9 @@ export const NewProduct = (props) => {
       <main className="global-px py-6">
         <nav className="flex flex-row list-none gap-1">
           <li className="after:content-['>'] after:font-semibold text-primary">
-            <NavLink to="/products">Favorite & Promo </NavLink>
+            <NavLink to="/products">Terbaru</NavLink>
           </li>
-          <li className="text-tertiary font-semibold">Add new product</li>
+          <li className="text-tertiary font-semibold">Tambah Menu Baru</li>
         </nav>
         <section className="flex flex-col md:flex-row py-14">
           <section className="flex-1 flex flex-col items-center gap-4">
@@ -130,17 +130,17 @@ export const NewProduct = (props) => {
                 <img src={preview || productPlaceholder} />
               </div>
             </div>
-            <label
+            {/* <label
               htmlFor="form_image"
               className="btn btn-block btn-lg normal-case mt-2 btn-accent text-white"
             >
               Take a picture
-            </label>
+            </label> */}
             <label
               htmlFor="form_image"
               className="btn btn-block btn-lg normal-case btn-secondary text-tertiary"
             >
-              Choose from gallery
+              Pilih Gambar
             </label>
           </section>
           <form
@@ -159,10 +159,10 @@ export const NewProduct = (props) => {
               className="text-tertiary font-bold text-lg"
               htmlFor="product_name"
             >
-              Name :
+              Nama Menu :
             </label>
             <input
-              placeholder="Type product name max. 50 characters"
+              placeholder="Tambahkan nama menu"
               name="name"
               id="product_name"
               value={form.name}
@@ -176,10 +176,10 @@ export const NewProduct = (props) => {
               className="text-tertiary font-bold text-lg"
               htmlFor="product_price"
             >
-              Price :
+              Harga :
             </label>
             <input
-              placeholder="Type the price"
+              placeholder="Masukkan Harga"
               name="price"
               type="number"
               id="product_price"
@@ -192,10 +192,10 @@ export const NewProduct = (props) => {
               className="text-tertiary font-bold text-lg"
               htmlFor="product_desc"
             >
-              Description :
+              Deskripsi :
             </label>
             <textarea
-              placeholder="Describe your product min. 50 characters"
+              placeholder="Tuliskan deskripsi menu disini"
               name="desc"
               id="product_price"
               value={form.desc}
@@ -211,7 +211,7 @@ export const NewProduct = (props) => {
               className="text-tertiary font-bold text-lg"
               htmlFor="product_category"
             >
-              Category :
+              Kategori :
             </label>
             <select
               name="category_id"
@@ -221,7 +221,7 @@ export const NewProduct = (props) => {
               className="select select-bordered w-full rounded-xl"
             >
               <option disabled value="">
-                Select related category
+                Pilih Kategori Menu
               </option>
               <option value="1">Coffee</option>
               <option value="2">Non-Coffee</option>
@@ -234,7 +234,7 @@ export const NewProduct = (props) => {
                 isLoading && "loading"
               } btn btn-block btn-lg normal-case mt-2 btn-primary text-white shadow-lg rounded-2xl`}
             >
-              Save Product
+              Tambah Menu
             </button>
             <button
               type="reset"
