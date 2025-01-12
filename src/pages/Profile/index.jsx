@@ -179,21 +179,23 @@ function Profile() {
       <p className="text-tertiary text-xl mb-4 text-center font-bold">
         Udah yakin mau diubah nih?
       </p>
-      <button
-        className="bg-tertiary border-2  secondary py-4 w-[75%] rounded-2xl mb-3 text-white font-semibold text-xl shadow-lg disabled:cursor-not-allowed disabled:bg-gray-400"
-        id="saveChange"
-        onClick={saveHandler}
-        disabled={(isEqual(form, data) && !selectedFile) || isProcess}
-      >
-        Simpan
-      </button>
-      <button
-        className="bg-secondary border-2  secondary py-4 w-[75%] rounded-2xl mb-3 text-tertiary font-semibold text-xl shadow-lg  disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-white"
-        onClick={() => setForm({ ...data })}
-        disabled={isEqual(form, data) || isProcess}
-      >
-        Batal
-      </button>
+      <div className="flex justify-between w-[75%] gap-4">
+        <button
+          className="bg-tertiary border-2 secondary py-4 flex-1 rounded-2xl mb-5 text-white font-semibold text-xl shadow-lg disabled:cursor-not-allowed disabled:bg-gray-400"
+          id="saveChange"
+          onClick={saveHandler}
+          disabled={(isEqual(form, data) && !selectedFile) || isProcess}
+        >
+          Simpan
+        </button>
+        <button
+          className="bg-secondary border-2 secondary py-4 flex-1 rounded-2xl mb-5 text-tertiary font-semibold text-xl shadow-lg disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-white"
+          onClick={() => setForm({ ...data })}
+          disabled={isEqual(form, data) || isProcess}
+        >
+          Batal
+        </button>
+      </div>
     </div>
   );
 
@@ -246,14 +248,12 @@ function Profile() {
                     Hapus Foto
                   </button>
                   <button
-                    className="bg-white border-2  secondary py-4 w-[75%] rounded-2xl mb-8 text-tertiary font-semibold shadow-lg"
+                    className="bg-white border-2  secondary py-4 w-[75%] rounded-2xl text-tertiary font-semibold shadow-lg"
                     onClick={switchEpassModal}
                   >
                     Edit Password
                   </button>
-                  <section className="hidden lg:block">
-                    <ActionList />
-                  </section>
+                  <section className="hidden lg:block"></section>
                 </section>
                 <section className="flex-[2_2_0%] p-4 md:p-10 lg:pl-0">
                   <form className="bg-white drop-shadow-2xl rounded-xl border-b-[6px] border-solid border-[#6a4029] px-5 py-3 relative">
@@ -286,7 +286,7 @@ function Profile() {
                         />
                       </div>
                       <div className="flex flex-col">
-                        <label htmlFor="email" className="text-[#9f9f9f]">
+                        <label htmlFor="phone" className="text-[#9f9f9f]">
                           Nomor Telepon
                         </label>
                         <input
@@ -299,25 +299,14 @@ function Profile() {
                           disabled={!editMode}
                         />
                       </div>
-                      <div className="flex flex-col">
-                        <label htmlFor="email" className="text-[#9f9f9f]">
-                          Alamat Antar
-                        </label>
-                        <input
-                          type="text"
-                          value={form.address}
-                          id="address"
-                          name="address"
-                          onChange={formHandler}
-                          className="focus:outline-none border-b-[1px] border-black w-full"
-                          disabled={!editMode}
-                        />
-                      </div>
                     </div>
                     <p className="text-primary text-xl font-bold">Details</p>
                     <div className="grid lg:grid-cols-[55%_35%] gap-x-5 gap-y-8 py-5">
                       <div className="input-profile">
-                        <label htmlFor="email" className="text-[#9f9f9f]">
+                        <label
+                          htmlFor="display_name"
+                          className="text-[#9f9f9f]"
+                        >
                           Username
                         </label>
                         <input
@@ -331,7 +320,7 @@ function Profile() {
                         />
                       </div>
                       <div className="input-profile">
-                        <label htmlFor="email" className="text-[#9f9f9f]">
+                        <label htmlFor="birthdate" className="text-[#9f9f9f]">
                           Tanggal Lahir
                         </label>
                         <input
@@ -344,8 +333,10 @@ function Profile() {
                           className="focus:outline-none border-b-[1px] border-black w-full"
                         />
                       </div>
+                    </div>
+                    <div className="grid lg:grid-cols-[55%_35%] gap-x-5 gap-y-8 py-5">
                       <div className="input-profile">
-                        <label htmlFor="email" className="text-[#9f9f9f]">
+                        <label htmlFor="firstName" className="text-[#9f9f9f]">
                           Nama Depan
                         </label>
                         <input
@@ -358,9 +349,8 @@ function Profile() {
                           className="focus:outline-none border-b-[1px] border-black w-full"
                         />
                       </div>
-                      <div className="input-profile hidden lg:block"></div>
                       <div className="input-profile">
-                        <label htmlFor="email" className="text-[#9f9f9f]">
+                        <label htmlFor="lastName" className="text-[#9f9f9f]">
                           Nama Belakang
                         </label>
                         <input
@@ -374,7 +364,7 @@ function Profile() {
                         />
                       </div>
                     </div>
-                    <div className="flex justify-around items-center">
+                    <div className="flex justify-around items-center mb-10">
                       <div className="male flex items-center gap-2">
                         <input
                           type="radio"
@@ -405,7 +395,7 @@ function Profile() {
                           className="hidden peer"
                           checked={String(form.gender) === "2"}
                           disabled={!editMode}
-                          onClick={() => setForm({ ...form, gender: "1" })}
+                          onClick={() => setForm({ ...form, gender: "2" })}
                           onChange={formHandler}
                           required
                         />
@@ -418,10 +408,8 @@ function Profile() {
                         <label htmlFor="genderFemale">Wanita</label>
                       </div>
                     </div>
+                    <ActionList />
                   </form>
-                </section>
-                <section className="block lg:hidden mt-8">
-                  <ActionList />
                 </section>
               </section>
             </div>

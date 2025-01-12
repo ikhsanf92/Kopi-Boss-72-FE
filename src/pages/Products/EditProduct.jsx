@@ -19,8 +19,6 @@ import {
 import useDocumentTitle from "../../utils/documentTitle";
 
 export const EditProduct = (props) => {
-  useDocumentTitle("Edit Product");
-
   /// states
   const initialState = {
     name: "",
@@ -91,7 +89,7 @@ export const EditProduct = (props) => {
     }
 
     if (e.target.files[0].size > 2097152) {
-      return toast.error("Files must not exceed 2 MB");
+      return toast.error("File-nya jangan gede-gede ya, max 2 MB aja!");
     }
 
     // I've kept this example simple by using the first image instead of multiple
@@ -112,7 +110,7 @@ export const EditProduct = (props) => {
       form.name === "" ||
       form.price === ""
     ) {
-      return toast.error("Input required form");
+      return toast.error("Isi dulu dong formnya, wajib nih!");
     }
 
     setLoading(true);
@@ -122,7 +120,7 @@ export const EditProduct = (props) => {
         navigate(`/products/detail/${result.data.data[0].id}`, {
           replace: true,
         });
-        toast.success("Product updated successfully");
+        toast.success("Menu berhasil diperbarui");
       })
       .catch((err) => {
         toast.error(err.message);
@@ -139,13 +137,13 @@ export const EditProduct = (props) => {
   return (
     <>
       <Modal isOpen={cancel} onClose={() => setCancel(!cancel)}>
-        <p>Are you sure want to reset the form?</p>
+        <p>Yakin nih mau reset formnya?</p>
         <section className="flex justify-center gap-x-5 mt-5">
           <button className="btn btn-error" onClick={resetHandler}>
-            Yes
+            Ya
           </button>
           <button className="btn" onClick={() => setCancel(!cancel)}>
-            No
+            Tidak
           </button>
         </section>
       </Modal>
@@ -166,7 +164,7 @@ export const EditProduct = (props) => {
             <li className="after:content-['>'] after:font-semibold text-primary">
               <NavLink to="/products">Terbaru</NavLink>
             </li>
-            <li className="text-tertiary font-semibold">Edit product</li>
+            <li className="text-tertiary font-semibold">Edit Menu</li>
           </nav>
           <section className="flex flex-col md:flex-row py-14">
             <section className="flex-1 flex flex-col items-center gap-4">
@@ -175,23 +173,18 @@ export const EditProduct = (props) => {
                   <img src={preview || form.img || productPlaceholder} />
                 </div>
               </div>
-              <label
-                htmlFor="form_image"
-                className="btn btn-block btn-lg normal-case mt-2 btn-accent text-white"
-              >
-                Take a picture
-              </label>
+
               <label
                 htmlFor="form_image"
                 className="btn btn-block btn-lg normal-case btn-secondary text-tertiary"
               >
-                Choose from gallery
+                Pilih Gambar
               </label>
               <button
                 onClick={() => setDeleteModal(true)}
                 className="btn btn-block btn-error btn-lg normal-case btn-secondary"
               >
-                Delete product
+                Hapus Menu
               </button>
             </section>
             <form
@@ -210,10 +203,10 @@ export const EditProduct = (props) => {
                 className="text-tertiary font-bold text-lg"
                 htmlFor="product_name"
               >
-                Name :
+                Nama Menu :
               </label>
               <input
-                placeholder="Type product name max. 50 characters"
+                placeholder="Tambahkan nama menu"
                 name="name"
                 id="product_name"
                 value={form.name}
@@ -227,10 +220,10 @@ export const EditProduct = (props) => {
                 className="text-tertiary font-bold text-lg"
                 htmlFor="product_price"
               >
-                Price :
+                Harga :
               </label>
               <input
-                placeholder="Type the price"
+                placeholder="Masukkan Harga"
                 name="price"
                 id="product_price"
                 value={form.price}
@@ -242,10 +235,10 @@ export const EditProduct = (props) => {
                 className="text-tertiary font-bold text-lg"
                 htmlFor="product_desc"
               >
-                Description :
+                Deskripsi :
               </label>
               <textarea
-                placeholder="Describe your product min. 50 characters"
+                placeholder="Tuliskan deskripsi menu disini"
                 name="desc"
                 id="product_price"
                 rows={4}
@@ -262,7 +255,7 @@ export const EditProduct = (props) => {
                 className="text-tertiary font-bold text-lg"
                 htmlFor="product_category"
               >
-                Category :
+                Kategori :
               </label>
               <select
                 name="category_id"
@@ -272,7 +265,7 @@ export const EditProduct = (props) => {
                 className="select select-bordered w-full rounded-xl"
               >
                 <option disabled value="">
-                  Select related category
+                  Pilih Kategori Menu
                 </option>
                 <option value="1">Coffee</option>
                 <option value="2">Non-Coffee</option>
@@ -287,7 +280,7 @@ export const EditProduct = (props) => {
                   disabled && "btn-disabled"
                 } btn btn-block btn-lg normal-case mt-2 btn-primary text-white shadow-lg rounded-2xl disabled:text-gray-400`}
               >
-                Save Product
+                Simpan Perubahan
               </button>
               <button
                 type="reset"
@@ -297,7 +290,7 @@ export const EditProduct = (props) => {
                   (disabled || loading) && "btn-disabled"
                 } btn btn-lg normal-case  bg-gray-200 hover:bg-gray-300 border-gray-300 text-tertiary shadow-lg rounded-2xl disabled:text-gray-400`}
               >
-                Reset changes
+                Reset
               </button>
             </form>
           </section>

@@ -17,7 +17,7 @@ function DeleteProduct({ isOpen, onClose, productId, userInfo }) {
     deleteProductEntry(productId, userInfo.token, controller)
       .then(() => {
         navigate("/products", { replace: true });
-        toast.success("Product deleted successfully");
+        toast.success("Menu berhasil dihapus");
       })
       .catch(() => {
         toast.error("An error ocurred");
@@ -30,23 +30,23 @@ function DeleteProduct({ isOpen, onClose, productId, userInfo }) {
   };
   return (
     <Modal isOpen={isOpen} onClose={closeHandler}>
-      <p className=" font-medium">Are you sure want to delete this product?</p>
+      <p className="font-medium text-center">Yakin mau hapus produk ini?</p>
       <p className="text-sm text-center text-error font-medium">
-        Warning: this act can&apos;t be undone!
+        Hati-hati ya! nggak bisa di-undo lagi lho!
       </p>
       <section className="flex justify-center items-center mt-5 gap-5">
         <button
           className={`${isLoading && "loading"} btn btn-error px-10`}
           onClick={yesHandler}
         >
-          Yes
+          Ya
         </button>
         <button
           disabled={isLoading}
           className={`${isLoading && "btn-disabled"} btn px-10`}
           onClick={closeHandler}
         >
-          No
+          Tidak
         </button>
       </section>
     </Modal>
