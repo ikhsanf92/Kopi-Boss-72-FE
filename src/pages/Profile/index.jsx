@@ -247,12 +247,12 @@ function Profile() {
                   >
                     Hapus Foto
                   </button>
-                  <button
+                  {/* <button
                     className="bg-white border-2  secondary py-4 w-[75%] rounded-2xl text-tertiary font-semibold shadow-lg"
                     onClick={switchEpassModal}
                   >
                     Edit Password
-                  </button>
+                  </button> */}
                   <section className="hidden lg:block"></section>
                 </section>
                 <section className="flex-[2_2_0%] p-4 md:p-10 lg:pl-0">

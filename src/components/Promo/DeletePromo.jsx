@@ -17,7 +17,7 @@ function DeletePromo({ isOpen, onClose, promoId, userInfo }) {
     deletePromoEntry(promoId, userInfo.token, controller)
       .then(() => {
         navigate("/products", { replace: true });
-        toast.success("Promo deleted successfully");
+        toast.success("Promo berhasil dihapus");
       })
       .catch(() => {
         toast.error("An error ocurred");
@@ -30,23 +30,23 @@ function DeletePromo({ isOpen, onClose, promoId, userInfo }) {
   };
   return (
     <Modal isOpen={isOpen} onClose={closeHandler}>
-      <p className=" font-medium">Are you sure want to delete this promo?</p>
+      <p className=" font-medium text-center">Yakin mau hapus promo ini?</p>
       <p className="text-sm text-center text-error font-medium">
-        Warning: this act can&apos;t be undone!
+        Hati-hati ya! nggak bisa di-undo lagi lho!
       </p>
       <section className="flex justify-center items-center mt-5 gap-5">
         <button
           className={`${isLoading && "loading"} btn btn-error px-10`}
           onClick={yesHandler}
         >
-          Yes
+          Ya
         </button>
         <button
           disabled={isLoading}
           className={`${isLoading && "btn-disabled"} btn px-10`}
           onClick={closeHandler}
         >
-          No
+          Tidak
         </button>
       </section>
     </Modal>

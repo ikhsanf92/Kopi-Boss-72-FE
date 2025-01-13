@@ -43,6 +43,7 @@ function History() {
     status_id: 0,
     status_name: "",
     transaction_time: "",
+    promo_id: "",
     payment_id: 0,
     payment_name: "",
     payment_fee: 0,

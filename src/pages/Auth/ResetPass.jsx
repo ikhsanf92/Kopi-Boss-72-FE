@@ -86,7 +86,7 @@ function ResetPass() {
         }),
         {
           loading: "Tunggu Sebentar yaa!!",
-          success: "The new password has been set successfully",
+          success: "Password berhasil diubah",
           error: (err) => {
             e.target.disabled = false;
             setIsLoading(false);
@@ -101,10 +101,7 @@ function ResetPass() {
     <>
       <header className="flex justify-center mb-10">
         <Link to="/">
-          <div className="font-extrabold flex flex-row justify-center gap-4">
-            <img src={icon} alt="logo" width="30px" />
-            <h1 className="text-xl">jokopi.</h1>
-          </div>
+          <div className="font-extrabold flex flex-row justify-center gap-4"></div>
         </Link>
       </header>
       {isNotFound ? (
@@ -112,34 +109,33 @@ function ResetPass() {
       ) : isLoading ? (
         <Loading />
       ) : (
-        <section>
+        <section className="flex justify-center items-center min-h-screen overflow-hidden">
           <form
             action=""
             method="post"
-            className="space-y-4 md:space-y-6 relative"
+            className="space-y-4 md:space-y-6 relative w-full max-w-md"
           >
             <div className="space-y-5">
               <h2 className="font-bold text-3xl text-center">
-                Forgot your password?
+                Kamu lupa password kah?
               </h2>
               <p className="text-xl text-center">
-                Don’t worry, we got your back!
+                Tenang, kita siap bantu kamu!!
               </p>
             </div>
             <div>
               <p className="text-center">
-                You have requested a link to reset your password, please enter a
-                new password to access your account
+                Mau ganti password? Isi password baru biar bisa akses akun kamu
+                deh!
               </p>
               <input
                 type="password"
                 name="pass"
                 id="pass"
-                className={
-                  `border-gray-400 border-2 rounded-2xl p-3 w-full mt-2` +
-                  (error !== "" ? " border-red-500" : "")
-                }
-                placeholder="Enter your new password"
+                className={`border-gray-400 border-2 rounded-2xl p-3 w-full mt-2 ${
+                  error !== "" ? "border-red-500" : ""
+                }`}
+                placeholder="Isi dengan password baru kamu ya!"
                 value={pass}
                 onChange={handleChange}
               />
@@ -151,7 +147,7 @@ function ResetPass() {
                 className="w-full text-tertiary bg-secondary focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-2xl text-lg p-3 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 shadow-xl mt-4"
                 onClick={resetPassHandler}
               >
-                Send
+                Ubah
               </button>
             </div>
           </form>

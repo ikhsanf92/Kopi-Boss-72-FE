@@ -22,7 +22,6 @@ import { n_f } from "../../utils/helpers";
 
 const EditPromo = (props) => {
   const { promoId } = useParams();
-  useDocumentTitle("Edit Promo");
   const initialState = {
     name: "",
     price: "",
@@ -182,7 +181,7 @@ const EditPromo = (props) => {
         navigate(`/products/`, {
           replace: true,
         });
-        toast.success("Promo edited successfully");
+        toast.success("Promo berhasil diubah");
       })
       .catch((err) => {
         if (err.response?.data?.msg) {
@@ -249,21 +248,15 @@ const EditPromo = (props) => {
               </div>
               <label
                 htmlFor="form_image"
-                className="btn btn-block btn-lg normal-case mt-2 btn-accent text-white"
-              >
-                Take a picture
-              </label>
-              <label
-                htmlFor="form_image"
                 className="btn btn-block btn-lg normal-case btn-secondary text-tertiary"
               >
-                Choose from gallery
+                Pilih Gambar
               </label>
               <button
                 onClick={() => setDeleteModal(true)}
                 className="btn btn-block btn-error btn-lg normal-case btn-secondary"
               >
-                Delete product
+                Hapus Promo
               </button>
             </section>
             <form
@@ -281,7 +274,7 @@ const EditPromo = (props) => {
                 className="text-tertiary font-bold text-lg"
                 htmlFor="product_name"
               >
-                Product :
+                Pilih Menu :
               </label>
               <div className="relative flex flex-col">
                 {form.product_id ? (
@@ -328,8 +321,8 @@ const EditPromo = (props) => {
                       className="cursor-pointer bg-gray-50 hover:bg-gray-300 rounded-md p-1 text-sm font-medium"
                       key={key}
                     >
-                      ID: {item.id} - {item.name} - Price: IDR {n_f(item.price)}{" "}
-                      - Category: {item.category_name}
+                      ID: {item.id} - {item.name} - Harga: IDR {n_f(item.price)}{" "}
+                      - Kategori: {item.category_name}
                     </li>
                   ))}
                 </div>
@@ -338,10 +331,10 @@ const EditPromo = (props) => {
                 className="text-tertiary font-bold text-lg"
                 htmlFor="product_name"
               >
-                Title :
+                Judul Promo :
               </label>
               <input
-                placeholder="Type promo title max. 50 characters"
+                placeholder="Apa nih judul promonya???"
                 name="name"
                 id="product_name"
                 value={form.name}
@@ -355,7 +348,7 @@ const EditPromo = (props) => {
                 className="text-tertiary font-bold text-lg"
                 htmlFor="product_price"
               >
-                Discount :
+                Total Diskon :
               </label>
               <div className="flex gap-5 items-center">
                 <input
@@ -437,10 +430,10 @@ const EditPromo = (props) => {
                 className="text-tertiary font-bold text-lg"
                 htmlFor="product_desc"
               >
-                Description :
+                Deskripsi :
               </label>
               <textarea
-                placeholder="Describe your promo min. 10 characters"
+                placeholder="Deskripsikan promonya"
                 name="desc"
                 id="product_price"
                 value={form.desc}
@@ -458,10 +451,10 @@ const EditPromo = (props) => {
                 className="text-tertiary font-bold text-lg"
                 htmlFor="coupon_code"
               >
-                Coupon Code :
+                Kode Promo :
               </label>
               <input
-                placeholder="Type promo coupon code 6-12 characters"
+                placeholder="Ketikin kode promonya"
                 name="coupon_code"
                 id="coupon_code"
                 value={form.coupon_code.toUpperCase()}
@@ -476,7 +469,7 @@ const EditPromo = (props) => {
                 className="text-tertiary font-bold text-lg"
                 htmlFor="coupon_code"
               >
-                Promo date (Start - End) :
+                Tanggal Promo (Mulai - Berakhir) :
               </label>
               <Datepicker
                 // containerClassName={"bg-white"}
@@ -486,7 +479,7 @@ const EditPromo = (props) => {
                 minDate={new Date()}
                 value={form}
                 popoverDirection="up"
-                separator="until"
+                separator="sampai"
                 onChange={(e) =>
                   setForm({
                     ...form,
@@ -504,7 +497,7 @@ const EditPromo = (props) => {
                   isLoading && "loading"
                 } btn btn-block btn-lg normal-case mt-2 btn-primary text-white shadow-lg rounded-2xl`}
               >
-                Save Promo
+                Simpan Perubahan
               </button>
               {/* <button
               type="reset"

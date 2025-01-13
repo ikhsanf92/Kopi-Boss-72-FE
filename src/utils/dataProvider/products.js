@@ -59,23 +59,32 @@ export const editProductEntry = (
   controller
 ) => {
   const bodyForm = new FormData();
-  if (image?.uri && image?.uri !== "") bodyForm.append("image", image);
+  // Tambahkan gambar jika ada
+  if (image instanceof File || image instanceof Blob) {
+    bodyForm.append("image", image);
+  } else if (image?.uri && image?.uri !== "") {
+    bodyForm.append("image", {
+      uri: image.uri,
+      name: "image.jpg",
+      type: "image/jpeg",
+    });
+  }
+
+  // Tambahkan properti lainnya
   bodyForm.append("name", name);
   bodyForm.append("category_id", category_id);
   bodyForm.append("desc", desc);
   bodyForm.append("price", price);
 
-  // const body = {
-  //   name,
-  //   price,
-  //   category_id,
-  //   desc,
-  //   image,
-  // };
+  // Debug isi FormData
+  for (let pair of bodyForm.entries()) {
+    console.log(pair[0], pair[1]);
+  }
+
+  // Kirim data ke API
   return api.patch(`/apiv1/products/${productId}`, bodyForm, {
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
     },
     signal: controller.signal,
   });

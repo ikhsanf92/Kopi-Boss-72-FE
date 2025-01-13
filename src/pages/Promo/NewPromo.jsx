@@ -136,7 +136,7 @@ const NewPromo = (props) => {
         navigate(`/products/`, {
           replace: true,
         });
-        toast.success("Promo added successfully");
+        toast.success("Promo berhasil ditambahkan");
       })
       .catch((err) => {
         if (err.response?.data?.msg) {

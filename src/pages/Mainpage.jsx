@@ -81,7 +81,7 @@ class Mainpage extends Component {
                     </div>
                   </div>
                   <div>
-                    <p className="text-md lg:text-xl">10+</p>
+                    <p className="text-md lg:text-xl">5+</p>
                     <p className="font-normal text-primary">Coffee</p>
                   </div>
                 </aside>
@@ -90,7 +90,7 @@ class Mainpage extends Component {
                     <img src={loveIcon} alt="" />
                   </div>
                   <div>
-                    <p className="text-md lg:text-xl">15+</p>
+                    <p className="text-md lg:text-xl">10+</p>
                     <p className="font-normal text-primary">Non-Coffee</p>
                   </div>
                 </aside>
@@ -126,50 +126,6 @@ class Mainpage extends Component {
                   </li>
                 ))}
               </ul>
-            </div>
-          </section>
-          <section className="global-px py-8 md:py-20">
-            <div className="flex flex-col items-center">
-              <h2 className="text-4xl text-quartenary font-semibold mb-5 text-center">
-                Wajib Coba, Auto Jadi Favorit!
-              </h2>
-              <p className="text-base text-gray-700 text-center">
-                Yuk pilih dan cobain deh, siapa tau ini jadi favoritmu juga! 
-              </p>
-            </div>
-            <div className="flex flex-row flex-wrap justify-center gap-12 mt-20">
-              {Array("", "", "").map((item, idx) => (
-                <div
-                  className="flex-1 flex flex-col justify-center border-gray-400 border rounded-xl px-5 py-5 md:py-12 items-center gap-5 text-base"
-                  key={idx}
-                >
-                  <img
-                    src={productImage1}
-                    alt=""
-                    width="140px"
-                    className="rounded-full mb-7"
-                  />
-                  <h3 className="text-lg font-medium">Hazelnut Latte</h3>
-                  <ul className="flex flex-col gap-5 mb-8 md:mb-20">
-                    <li className="flex items-center gap-4">
-                      <img src={checkIcon} alt="" /> Hazelnut Syrup
-                    </li>
-                    <li className="flex items-center gap-4">
-                      <img src={checkIcon} alt="" /> Wanilla Whipped Cream
-                    </li>
-                    <li className="flex items-center gap-4">
-                      <img src={checkIcon} alt="" /> Ice / Hot
-                    </li>
-                    <li className="flex items-center gap-4">
-                      <img src={checkIcon} alt="" /> Sliced Banana on Top
-                    </li>
-                  </ul>
-                  <p className="font-medium text-2xl">IDR 25.000</p>
-                  <button className="bg-secondary text-tertiary px-9 py-3 rounded-3xl font-bold">
-                    Order Now
-                  </button>
-                </div>
-              ))}
             </div>
           </section>
           <section className="global-px py-8 md:py-20">
